@@ -1,0 +1,13 @@
+/* OVERRIDE */
+.navbar-inverse {
+	background-color: #3498db;
+	border-color: #2980b9;
+}
+
+body {
+  padding-top: 50px;
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
