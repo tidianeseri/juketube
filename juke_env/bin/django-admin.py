@@ -1,4 +1,4 @@
-#!/Users/tidileboss/Documents/workspace/juketube/juke_env/bin/python
+#!/home/tidileboss/workspace/juketube/juke_env/bin/python
 from django.core import management
 
 if __name__ == "__main__":

@@ -5,9 +5,27 @@
 }
 
 body {
-  padding-top: 50px;
+	padding-top: 50px;
 }
+
 .starter-template {
-  padding: 40px 15px;
-  text-align: center;
+	padding: 40px 15px;
+	text-align: center;
+}
+
+.cueButton {
+	display: block;
+	float: right;
+}
+
+.active {
+	background-color: #3498db;
+}
+
+.active a{
+	color: white;
+}
+
+#myytplayer {
+	width: 100%;
 }
