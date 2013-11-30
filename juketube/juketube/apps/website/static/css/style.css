@@ -29,3 +29,8 @@ body {
 #myytplayer {
 	width: 100%;
 }
+
+.btn-info, .btn-info:hover {
+	background-image: none;
+	border: 0;
+}

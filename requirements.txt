@@ -3,4 +3,5 @@ South==0.8.2
 argparse==1.2.1
 google-api-python-client==1.2
 httplib2==0.8
+requests==2.0.1
 wsgiref==0.1.2

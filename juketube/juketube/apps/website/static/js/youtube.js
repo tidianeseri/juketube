@@ -8,6 +8,7 @@ function onYouTubePlayerReady(playerId) {
 
 var results = [];
 var current_track;
+var next_track;
 
 function onytplayerStateChange(evt)
 {
@@ -15,10 +16,12 @@ function onytplayerStateChange(evt)
 	if(evt == 0)
 	{
 		current_track.removeClass("active")
-		var next = current_track.next();
-
-		if(next.attr("id"))
-			loadVideo(next.attr("id"));
+		next_track = current_track.next();
+		//console.log("next:"+next_track);
+		if(next_track.attr("id")) {
+			//current_track = next;
+			loadVideo(next_track.attr("id"), "suivant");
+		}
 	}
 }
 
@@ -44,18 +47,50 @@ function stop() {
 	}
 }
 
-function loadVideo(videoID) {
+function nextVideo() {
+	next_track = current_track.next();
+	if(next_track.attr("id")) {
+		loadVideo(next_track.attr("id"), "suivant");
+	}
+}
+
+function prevVideo() {
+	next_track = current_track.prev();
+	if(next_track.attr("id")) {
+		loadVideo(next_track.attr("id"), "suivant");
+	}
+}
+
+function loadVideo(videoID, next) {
 	if (ytplayer) {
 		ytplayer.loadVideoById(videoID);
+		
 		if(current_track != null) current_track.removeClass("active");
-		current_track = $('#'+videoID);
+		
+		if(next == "suivant") {
+			//console.log("suivant");
+			current_track = next_track;
+		}
+		else if (next != undefined) {
+			//console.log("position: "+next);
+			current_track = $('#playlist-table li').eq(next);
+		}
+		else {
+			//console.log("else");
+			current_track = $('#playlist-table #'+videoID).first();
+		}
+		
 		current_track.addClass("active");
+		//else
+		//	$('#playlist-table li').eq(index).addClass("active");
+		
 		play();
 	}
 }
 
 function cueVideo(index) {
-	$('#playlist-table').append( "<li class='list-group-item' id='" + results[index].id + "'><a href='javascript:removeSong(\"" + results[index].id + "\");' class='cueButton'><span class='badge'>-</span></a><a href='javascript:loadVideo(\"" + results[index].id + "\");' class='results-item'>" + results[index].title + "</a></li>" );
+	var position = $('#playlist-table li').length;
+	$('#playlist-table').append( "<li class='list-group-item' id='" + results[index].id + "'><a href='javascript:removeSong(\"" + results[index].id + "\");' class='cueButton'><span class='badge'>-</span></a><a href='javascript:loadVideo(\"" + results[index].id + "\", "+position+");' class='playlists-item'>" + results[index].title + "</a></li>" );
 	
 }
 
@@ -67,81 +102,11 @@ function removeSong(videoID) {
 	$('#'+videoID).remove();
 }
 
-function my_js_callback(data){
-    alert(data.message);
+function refreshCurrentPlaying(){
+	if (ytplayer) {
+		if (ytplayer.getPlayerState() == 1) {
+			current_track = $("#"+current_track.attr('id'));
+			current_track.addClass("active");
+		}
+	}
 }
-
-$(document).ready(function(){
-	
-	// Formulaire POST AJAX
-	$("#ajax2").submit( function() {
-		var urlSubmit = $(this).attr('action');
-		$.ajax({  
-			type: "POST",
-			url: urlSubmit,
-			data      : $(this).serializeArray(),
-			success: function(data) {
-				var items = [];
-				results = [];
-				var i = 0;
-				$.each( data, function( key, val ) {
-					objVideo=new Object();
-					objVideo.id=key;
-					objVideo.title=val;
-					//console.log(objVideo);
-					results.push(objVideo);
-					items.push( "<li class='list-group-item'><a href='javascript:cueVideo("+i+");' class='cueButton'><span class='badge'>+</span></a><a href='javascript:loadVideo(\"" + key + "\");' class='results-item'>" + val + "</a></li>" );
-					i++;
-				});
-				$('#results-table').fadeOut('fast', function(){
-					$('#results-table').html();
-					$('#results-table').html(items);
-					$('#results-table').fadeIn('fast');
-				});
-			}
-		});
-		return false;
-	});
-
-	//Youtube Instant Search
-
-	$("#search").keyup(function() 
-	{
-		var search_input = $(this).val();
-		var keyword= encodeURIComponent(search_input);
-		// Youtube API 
-		var yt_url='http://gdata.youtube.com/feeds/api/videos?q='+keyword+'&format=5&max-results=10&v=2&alt=jsonc'; 
-
-		$.ajax
-		({
-			type: "GET",
-			url: yt_url,
-			dataType:"jsonp",
-			success: function(response)
-			{
-
-				if(response.data.items)
-				{					
-					var items = [];
-					results = [];
-					var i = 0;
-					$.each( response.data.items, function(i,data) {
-						objVideo=new Object();
-						objVideo.id=data.id;
-						objVideo.title=data.title;
-						//console.log(objVideo);
-						results.push(objVideo);
-						items.push( "<li class='list-group-item'><a href='javascript:cueVideo("+i+");' class='cueButton'><span class='badge'>+</span></a><a href='javascript:loadVideo(\"" + data.id + "\");' class='results-item'>" + data.title + "</a></li>" );
-						i++;
-					});
-					$('#results-table').fadeOut('fast', function(){
-						$('#results-table').html();
-						$('#results-table').html(items);
-						$('#results-table').fadeIn('fast');
-					});
-					
-				}
-			}
-		});
-	});
-});
