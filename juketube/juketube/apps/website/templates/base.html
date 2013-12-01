@@ -54,8 +54,8 @@
 							<li><a href="#">Create</a></li>
 							<li class="divider"></li>
 							<li class="dropdown-header">Shared Playlist</li>
-							<li><a href="/create/">Create</a></li>
-							<li><a href="#">Join</a></li>
+							<li><a href="{% url 'create_playlist' %}">Create</a></li>
+							<li><a href="{% url 'all_playlists' %}">Join</a></li>
 						</ul>
 					</li>
 					{% if user.is_authenticated %}
@@ -63,7 +63,7 @@
 						data-toggle="dropdown">Playlists <b class="caret"></b></a>
 						<ul class="dropdown-menu">
 							{% for play in user.playlists_listeners.all %}
-							    <li><a href="{% url 'shared_list' play.slug %}">{{ play.name }}</a></li>
+							    <li><a href="{% url 'shared_playlist' play.slug %}">{{ play.name }}</a></li>
 							{% empty %}
 							    <li>Sorry, no list.</li>
 							{% endfor %}

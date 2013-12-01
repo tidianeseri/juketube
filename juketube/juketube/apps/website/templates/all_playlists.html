@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="row starter-template">
+<h1>All Playlists</h1>
+<div class="col-md-8">
+  <ul class="list-group">
+  {% for list in playlists %}
+    <li class="list-group-item">
+      <a href="{% url 'shared_playlist' list.slug%}"> {{list }} </a>
+    </li>
+   {% endfor %}
+  </ul>
+</div>	
+</div>
+{% endblock %}

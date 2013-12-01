@@ -9,7 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.sessions.models import Session
 from django.core.exceptions import MultipleObjectsReturned
 from django.core import serializers
-import json, random, string, redis, sys
+import json, random, string, sys
 
 def index(request):
     """
@@ -168,8 +168,8 @@ def node_api(request):
         #Comments.objects.create(user=user, text=request.POST.get('comment'))
         
         #Once comment has been created post it to the chat channel
-        r = redis.StrictRedis(host='localhost', port=6379, db=0)
-        r.publish('chat', user.username + ': ' + request.POST.get('comment'))
+        #r = redis.StrictRedis(host='localhost', port=6379, db=0)
+        #r.publish('chat', user.username + ': ' + request.POST.get('comment'))
         
         print "%s | msg: %s"%(user, request.POST.get('comment'))
         print request.POST
@@ -178,8 +178,21 @@ def node_api(request):
     except Exception, e:
         return HttpResponseServerError(str(e))    
     
+def all_playlists(request):
+    t = loader.get_template('all_playlists.html')
+    c = RequestContext(request, {'playlists':Playlist.objects.all()})
+    return HttpResponse(t.render(c))
+    
 @login_required
-def join_playlist(request):
-    playlist_id = request.POST.get('playlist_id', '')
+def join_playlist(request, playlist_id):
+    
     playlist = Playlist.objects.get(pk = playlist_id)
     Playlist.objects.join_playlist(playlist, request.user)
+    return HttpResponseRedirect('/playlists/'+playlist.slug)
+
+@login_required
+def leave_playlist(request, playlist_id):
+    
+    playlist = Playlist.objects.get(pk = playlist_id)
+    Playlist.objects.leave_playlist(playlist, request.user)
+    return HttpResponseRedirect('/playlists/'+playlist.slug)

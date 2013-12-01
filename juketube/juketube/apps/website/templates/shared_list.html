@@ -3,7 +3,8 @@
 {% block content %}
 <div class="starter-template">
 	<!-- <button type="button" class="btn btn-success" id="ping">Ping</button> -->
-	<button type="button" class="btn btn-info" id="joinButton">Be a Listener</button>
+	{% if not is_listener %} <a href="{% url 'join_playlist' playlist.id %}"><button type="button" class="btn btn-info" id="joinButton">Be a Listener</button></a>
+	{% else %} <a href="{% url 'leave_playlist' playlist.id %}"><button type="button" class="btn btn-info" id="joinButton">Stop Following</button></a> {% endif %}
   <h1>{% trans "Playlist: " %}{{playlist.name}}</h1>
   <h2>{% trans "Rechercher" %}</h1>
   <form id="ajax2" action="/search/" method="post">{% csrf_token %}

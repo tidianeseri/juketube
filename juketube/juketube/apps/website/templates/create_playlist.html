@@ -2,8 +2,11 @@
 {% load i18n %}
 
 {% block content %}
+<div class="row starter-template well">
+<legend>Create a playlist</legend>
 <form action="/create/" method="post">{% csrf_token %}
 {{ form.as_p }}
 <input type="submit" value="Submit" />
 </form>
+</div>
 {% endblock %}

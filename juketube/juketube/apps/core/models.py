@@ -52,3 +52,9 @@ class Playlist(models.Model):
     
     def __unicode__(self):
         return self.name
+    
+class PlaylistMedia(models.Model):
+    """ Pour gerer l'association utiliser through"""
+    playlist = models.ForeignKey(Playlist)
+    media = models.ForeignKey(Media)
+    order = models.IntegerField()
