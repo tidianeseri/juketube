@@ -23,7 +23,7 @@
 		<div>
 		<ul class="pager">
           <li><a href="#"><span class="glyphicon glyphicon-fast-backward"></span></a></li>
-          <li><a href="javascript:ytplayer.playVideo()"><span class="glyphicon glyphicon-stop"></span></a></li>
+          <li><a href="javascript:stop()"><span class="glyphicon glyphicon-stop"></span></a></li>
           <li><a href="javascript:play();"><span class="glyphicon glyphicon-play playbutton"></span></a></li>
           <li><a href="#"><span class="glyphicon glyphicon-fast-forward"></span></a></li>
         </ul>
@@ -38,7 +38,21 @@
 
 {% block pagejs %}
 <script type="text/javascript">
-	var params = {
+var tag = document.createElement('script');
+
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+var ytplayer;
+function onYouTubeIframeAPIReady() {
+  ytplayer = new YT.Player('ytapiplayer', {
+    height: '200',
+    width: '300',
+    videoId: 'Tt3Ny1u7CPI'
+  });
+}
+	/*var params = {
 		allowScriptAccess : "always"
 	};
 	var atts = {
@@ -47,7 +61,7 @@
 	swfobject
 			.embedSWF(
 					"http://www.youtube.com/v/Tt3Ny1u7CPI?enablejsapi=1&playerapiid=ytplayer&controls=1&showinfo=0&theme=light&version=3",
-					"ytapiplayer", "300", "200", "8", null, null, params, atts);
+					"ytapiplayer", "300", "200", "8", null, null, params, atts);*/
 </script>
 <script src="static/js/youtube_local.js"></script>
 <script src="static/js/youtube.js"></script>

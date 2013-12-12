@@ -9,6 +9,7 @@
   <h2>{% trans "Rechercher" %}</h1>
   <form id="ajax2" action="/search/" method="post">{% csrf_token %}
   <input type="text" class="form-control" id="search" name="search" placeholder="Enter your query...">
+  <button type="submit" class="btn btn-info">OK</button>
   </form>
   
   <form id="toQueue" action="/updatePlaylist/" method="post">{% csrf_token %}
@@ -19,7 +20,7 @@
   </form>
   
 </div>
-<div class="row">
+<div class="row corps">
 	<div class="col-md-4">
 		<h3>RESULTATS</h3>
 		<ul class="list-group" id="results-table">
@@ -36,7 +37,7 @@
 		{% endfor %}
         </ul>
 	</div>
-	<div class="col-md-4">
+	<div class="col-md-4 centree">
 		<h3>VIDEO</h3>
 		<div>
 		<ul class="pager">
@@ -46,7 +47,7 @@
           <li><a href="javascript:nextVideo()"><span class="glyphicon glyphicon-fast-forward"></span></a></li>
         </ul>
 	    </div>
-		<script type="text/javascript" src="/static/js/swfobject.js"></script>    
+		<!-- <script type="text/javascript" src="/static/js/swfobject.js"></script> -->    
 		  <div id="ytapiplayer">
 		    You need Flash player 8+ and JavaScript enabled to view this video.
 		  </div>
@@ -56,16 +57,31 @@
 
 {% block pagejs %}
 <script type="text/javascript">
-	var params = {
-		allowScriptAccess : "always"
+var tag = document.createElement('script');
+
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+var ytplayer;
+function onYouTubeIframeAPIReady() {
+  ytplayer = new YT.Player('ytapiplayer', {
+    height: 'auto',
+    width: 'auto',
+    videoId: 'Tt3Ny1u7CPI'
+  });
+}
+	/*var params = {
+		allowScriptAccess : "always",
+		allowfullscreen : "true"
 	};
 	var atts = {
 		id : "myytplayer"
 	};
 	swfobject
 			.embedSWF(
-					"http://www.youtube.com/v/Tt3Ny1u7CPI?enablejsapi=1&playerapiid=ytplayer&controls=1&showinfo=0&theme=light&version=3",
-					"ytapiplayer", "300", "200", "8", null, null, params, atts);
+					"http://www.youtube.com/v/Tt3Ny1u7CPI?enablejsapi=1&playerapiid=ytplayer&controls=1&showinfo=0&theme=dark&version=3",
+					"ytapiplayer", "300", "200", "8", null, null, params, atts);*/
 </script>
 <script src="/static/js/youtube_shared.js"></script>
 <script src="/static/js/youtube.js"></script>
