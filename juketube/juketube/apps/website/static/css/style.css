@@ -5,9 +5,45 @@
 }
 
 body {
-  padding-top: 50px;
+	padding-top: 50px;
 }
+
+#search {
+	display: inline-block;
+	width: 80%;
+}
+
 .starter-template {
-  padding: 40px 15px;
-  text-align: center;
+	padding: 40px 15px;
+	text-align: center;
+}
+
+.cueButton {
+	display: block;
+	float: right;
+}
+
+.active {
+	background-color: #3498db;
+}
+
+.active a{
+	color: white;
+}
+
+#myytplayer {
+	width: 100%;
+}
+
+.btn-info, .btn-info:hover {
+	background-image: none;
+	border: 0;
+}
+
+li a span.badge{
+	font-size: 1.5em;
+}
+
+.corps h3, .centree {
+	text-align: center;
 }

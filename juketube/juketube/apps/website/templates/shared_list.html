@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+<div class="starter-template">
+	<!-- <button type="button" class="btn btn-success" id="ping">Ping</button> -->
+	{% if not is_listener %} <a href="{% url 'join_playlist' playlist.id %}"><button type="button" class="btn btn-info" id="joinButton">Be a Listener</button></a>
+	{% else %} <a href="{% url 'leave_playlist' playlist.id %}"><button type="button" class="btn btn-info" id="joinButton">Stop Following</button></a> {% endif %}
+  <h1>{% trans "Playlist: " %}{{playlist.name}}</h1>
+  <h2>{% trans "Rechercher" %}</h1>
+  <form id="ajax2" action="/search/" method="post">{% csrf_token %}
+  <input type="text" class="form-control" id="search" name="search" placeholder="Enter your query...">
+  <button type="submit" class="btn btn-info">OK</button>
+  </form>
+  
+  <form id="toQueue" action="/updatePlaylist/" method="post">{% csrf_token %}
+  <input type="hidden" id="idmedia" name="idmedia">
+  <input type="hidden" id="title" name="title">
+  <input type="hidden" id="operation" name="operation">
+  <input type="hidden" id="playlist_id" name="playlist_id" value="{{playlist.id}}">
+  </form>
+  
+</div>
+<div class="row corps">
+	<div class="col-md-4">
+		<h3>RESULTATS</h3>
+		<ul class="list-group" id="results-table">
+        </ul>
+	</div>
+	<div class="col-md-4">
+		<h3>PLAYLIST {% if is_listener %}<a href='javascript:updateQueueVideo("", "clear");'><span class="badge">Clear</span></a>{% endif %}</h3>
+		<ul class="list-group" id="playlist-table">		
+		{% for media in playlist.medias.all %}
+		<li class="list-group-item" id="{{ media.media_id }}">
+			{% if is_listener %}<a href='javascript:updateQueueVideo("{{ media.id }}", "rem");' class="cueButton"><span class="badge">-</span></a>{% endif %}
+			<a href='javascript:loadVideo("{{ media.media_id }}", {{forloop.counter0}});' class="results-item">{{ media.name }}</a>
+		</li>
+		{% endfor %}
+        </ul>
+	</div>
+	<div class="col-md-4 centree">
+		<h3>VIDEO</h3>
+		<div>
+		<ul class="pager">
+          <li><a href="javascript:prevVideo()"><span class="glyphicon glyphicon-fast-backward"></span></a></li>
+          <li><a href="javascript:stop()"><span class="glyphicon glyphicon-stop"></span></a></li>
+          <li><a href="javascript:play();"><span class="glyphicon glyphicon-play playbutton"></span></a></li>
+          <li><a href="javascript:nextVideo()"><span class="glyphicon glyphicon-fast-forward"></span></a></li>
+        </ul>
+	    </div>
+		<!-- <script type="text/javascript" src="/static/js/swfobject.js"></script> -->    
+		  <div id="ytapiplayer">
+		    You need Flash player 8+ and JavaScript enabled to view this video.
+		  </div>
+	</div>
+</div>
+{% endblock %}
+
+{% block pagejs %}
+<script type="text/javascript">
+var tag = document.createElement('script');
+
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+var ytplayer;
+function onYouTubeIframeAPIReady() {
+  ytplayer = new YT.Player('ytapiplayer', {
+    height: 'auto',
+    width: 'auto',
+    videoId: 'Tt3Ny1u7CPI'
+  });
+}
+	/*var params = {
+		allowScriptAccess : "always",
+		allowfullscreen : "true"
+	};
+	var atts = {
+		id : "myytplayer"
+	};
+	swfobject
+			.embedSWF(
+					"http://www.youtube.com/v/Tt3Ny1u7CPI?enablejsapi=1&playerapiid=ytplayer&controls=1&showinfo=0&theme=dark&version=3",
+					"ytapiplayer", "300", "200", "8", null, null, params, atts);*/
+</script>
+<script src="/static/js/youtube_shared.js"></script>
+<script src="/static/js/youtube.js"></script>
+{% endblock %}
+
+{% block headjs %}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
+<script src="http://192.168.1.105:4000/socket.io/socket.io.js"></script>
+<script>
+	var socket = io.connect('/', {
+		port : 4000
+	});
+	var playlist = "{{playlist.slug}}";
+
+	socket.on('connect', function() {
+		console.log("connected");
+		socket.emit('playlist', playlist);
+	});
+
+	socket.on('message', function(message) {
+		//alert(message);
+		refreshPlaylist("{{playlist.id}}");
+	});
+
+	$(document).ready(function() {
+
+		var entry_el = $('#ping');
+		//console.log(entry_el);
+
+		entry_el.click(function() {
+			//When enter is pressed send input value to node server
+			var msg = "{{playlist.slug}}";
+			console.log("msg envoye");
+			if (msg) {
+				socket.emit('send_message', msg, function(data) {
+					console.log(data);
+				});
+			}
+		});
+	});
+</script>
+{% endblock %}
