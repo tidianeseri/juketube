@@ -16,7 +16,7 @@ def index(request):
         home page view
     """
     
-    t = loader.get_template('index.html')
+    t = loader.get_template('seven/index.html')
     c = RequestContext(request, {})
     return HttpResponse(t.render(c))
 
@@ -196,3 +196,8 @@ def leave_playlist(request, playlist_id):
     playlist = Playlist.objects.get(pk = playlist_id)
     Playlist.objects.leave_playlist(playlist, request.user)
     return HttpResponseRedirect('/playlists/'+playlist.slug)
+
+def tests(request):
+    t = loader.get_template('seven/my_playlists.html')
+    c = RequestContext(request, {})
+    return HttpResponse(t.render(c))

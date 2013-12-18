@@ -46,7 +46,8 @@ class Playlist(models.Model):
     name = models.CharField(max_length=100, blank=False, null=False)
     password = models.CharField(max_length=4, blank=True)
     listeners = models.ManyToManyField(User, related_name="playlists_listeners")
-    medias = models.ManyToManyField(Media, related_name="+")
+    medias = models.ManyToManyField(Media, through='PlaylistMedia', related_name="+")
+    counter = models.IntegerField(default=0)
     
     objects = PlaylistManager()
     
@@ -57,4 +58,4 @@ class PlaylistMedia(models.Model):
     """ Pour gerer l'association utiliser through"""
     playlist = models.ForeignKey(Playlist)
     media = models.ForeignKey(Media)
-    order = models.IntegerField()
+    position = models.IntegerField()

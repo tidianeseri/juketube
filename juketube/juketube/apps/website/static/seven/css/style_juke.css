@@ -1,0 +1,129 @@
+body {
+	background: rgba(220, 231, 243, 1);
+}
+
+.top-bar .left-ico>li>a {
+	font-size: 12px;
+	font-weight: 400;
+	color: #999999;
+}
+
+.navbar .container-fluid.top-bar .left-ico>li>a span {
+	font-size: 24px;
+	width: 24px;
+	height: 24px;
+	display: block;
+	margin: 0 auto -6px;
+}
+
+.navbar .container-fluid.top-bar {
+	height: 51px;
+}
+
+.navbar .container-fluid.main-nav form .form-control {
+	height: auto;
+	border-color: #e6e6e6;
+	box-shadow: none;
+	background: white url("../images/icon-search.png") no-repeat center left;
+	padding-left: 24px;
+	margin-top: 1px;
+	width: 100%;
+}
+
+.navbar .container-fluid.main-nav {
+	/*background: rgba(0, 122, 255, 0.23);*/
+}
+
+iframe {
+	width: 100%;
+	height: 100%;
+	max-height: 400px;
+}
+
+.well {
+	background-color: rgba(0, 122, 255, 0.23);
+}
+
+/*Tableau de resultats */
+.table-list td.thumbvideo {
+	width: 30%;
+}
+.cueButton i {
+	font-size: 2em;
+}
+.table-list tr:nth-child(even) td:first-child{background: #5bc0de} /*blue*/
+.table-list tr:nth-child(odd) td:first-child{background: #d9534f} /*red*/
+
+.table-list tr:hover:nth-child(even){
+	background-color:rgba(91, 192, 222, 0.15);
+}
+
+.table-list tr:hover:nth-child(odd){
+	background-color:rgba(217, 83, 79, 0.15);
+}
+
+.table-list h5 {
+	margin: 0;
+}
+
+/*Tableau de playlist */
+.table-list.table-playlist td.thumbvideo {
+	width: 10%;
+}
+
+.table-list.table-playlist tr.active>td {
+	background: #5bc0de;
+}
+.table-list.table-playlist tr.active td a{
+	color: white;
+}
+
+.table-list.table-playlist tr.active td .arrow-left{
+	margin-top: 20%;
+}
+
+/* Remote Controls */
+.remote-controls span{
+	font-size: 3em;
+}
+
+/*Gallerie playlists */
+.gallery-grid.gallery-playlist li {
+	width: 20%;
+}
+
+.gallery-grid.gallery-playlist li figure img {
+	width: 100%;
+}
+
+.gallery-grid.gallery-playlist li figure .playlist-info{
+	position: absolute;
+	top: 0px;
+	margin: 10px;
+	padding: 5px;
+	background-color: rgba(255, 255, 255, 0.71);;
+}
+
+.gallery-grid.gallery-playlist li figure .playlist-info p{
+	margin-bottom: 3px;
+}
+
+.gallery-grid.gallery-playlist li .caption {
+	padding-top: 5px;	
+	height: 40%;
+}
+
+.my-playlists .actions{
+	top: 20px;
+	height: 110px;
+	overflow: hidden;
+}
+
+.my-playlists .actions h3 {
+	margin-bottom: 2px;
+}
+
+.my-playlists h4 {
+	margin-top: 5px;
+	color: white;
+}

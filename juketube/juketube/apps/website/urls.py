@@ -15,6 +15,7 @@ urlpatterns = patterns("",
     
     url(r'^chat/$', views.chat, name='chat'),
     url(r'^node_api$', views.node_api, name='node_api'),
+    url(r'^test$', views.tests, name='tests'),
     url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'admin/login.html'}, name='login'),
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, name='logout'),
 )

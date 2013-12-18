@@ -1,0 +1,115 @@
+{% extends "seven/base.html" %}
+{% load i18n %}
+{% block pagetitle %} JukeTube{% endblock %}
+{% block content %}
+<div class="row">
+       <div class="col-md-3">
+       <div class="widget-container fluid-height list green">
+         <div class="heading">
+           <i class="glyphicon glyphicon-list"></i>Search Results
+         </div>
+         <div class="widget-content padded">
+         	<table class="table table-filters table-list" id="results-table">
+            </table>
+         </div>
+         </div>
+       </div>
+
+	<div class="col-md-6">
+		<div class="widget-container fluid-height list green">
+			<div class="heading">
+				<span class="glyphicon glyphicon-facetime-video"></span>Video <span
+					class="glyphicon glyphicon-step-forward pull-right"></span> <span
+					class="glyphicon glyphicon-play pull-right"></span> <span
+					class="glyphicon glyphicon-stop pull-right"></span> <span
+					class="glyphicon glyphicon-step-backward pull-right"></span>
+			</div>
+			<div class="widget-content padded">
+				<script type="text/javascript" src="/static/js/swfobject.js"></script>
+				<div id="ytapiplayer">You need Flash player 8+ and JavaScript
+					enabled to view this video.</div>
+			</div>
+			<div class="widget-content padded">
+         	<table class="table table-filters table-list table-playlist" id="playlist-table">
+              </table>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-3">
+		<div class="widget-container fluid-height list">
+			<div class="heading">
+				<i class="glyphicon glyphicon-time"></i>Next Video
+			</div>
+			<div class="widget-content padded" id="next-video">
+				<div class="next-video-img">
+					<a href="#"><img
+						src="#" alt="Miniature"
+						width="100%"></a>
+				</div>
+				<div class="next-video-infos">
+					<a href="#"><strong></strong></a>
+					<h5></h5>
+				</div>
+			</div>
+			
+         	<table class="table table-filters table-list" id="playlist-table2">
+            </table>
+		</div>
+	</div>
+</div>
+
+<div class="row" id="about">
+<h1>About JukeTube</h1>
+	<div class="col-md-4">
+		<div class="well">
+			<h2 class="heading">What is JukeTube?</h2>
+			<p>JukeTube is a multimedia playlist maker. It allows you to easily and rapidly create and plays Youtube playlists.
+			<p>You can create local playlists and play them on the fly, or you can create shared playlists that can be edited live
+				by different people.
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="well">
+			<h2 class="heading">Local Playlists</h2>
+			<p>Search here for a youtube media and add it to your playlist
+			<p>Done. Have fun watching/listening to them!
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="well">
+			<h2 class="heading">Shared Playlists</h2>
+			<p>Login with your Juketube or your Facebook/Twitter Account
+			<p>Join, open or create a playlist in 1 step.
+			<p>Add medias to your playlist.
+			<p>Watch your friends add media to your playlists.
+			<p>Remote control a designated Jukebox!
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block pagejs %}
+<script type="text/javascript">
+//player = new YoutubePlayer("ytapiplayer");
+	var tag = document.createElement('script');
+
+	tag.src = "https://www.youtube.com/iframe_api";
+	var firstScriptTag = document.getElementsByTagName('script')[0];
+	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+	
+	var ytplayer;
+	function onYouTubeIframeAPIReady() {
+	  ytplayer = new YT.Player('ytapiplayer', {
+	    height: 'auto',
+	    width: 'auto',
+	    videoId: 'Tt3Ny1u7CPI',
+    	events: {
+            'onReady': onYouTubePlayerReady,
+            'onStateChange': onytplayerStateChange
+          }
+	  });
+	}
+</script>
+<script src="/static/seven/js/juketube.js" type="text/javascript"></script>
+{% endblock %}
