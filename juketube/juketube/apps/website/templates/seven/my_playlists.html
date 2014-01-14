@@ -23,59 +23,30 @@
               <div class="heading">
                 <i class="icon-th-large"></i>My Playlists
                 <div class="gallery-filters list-inline btn-group pull-right">
-                  <a class="btn btn-sm btn-primary-outline selected" data-filter="*" href="#">All</a><a class="btn btn-sm btn-primary-outline" data-filter=".filter1" href="#">Mine</a><a class="btn btn-sm btn-primary-outline" data-filter=".filter2" href="#">Other's</a>
+                  <a class="btn btn-sm btn-primary-outline selected" data-filter="*" href="#">All</a>
+                  <a class="btn btn-sm btn-primary-outline" data-filter=".{{user}}" href="#">Mine</a>
+                  <a class="btn btn-sm btn-primary-outline" data-filter=":not(.{{user}})" href="#">Other's</a>
                 </div>
               </div>
               <div class="widget-content padded my-playlists">
                 <div class="gallery-container">
-                  <a class="gallery-item filter1" href="#" title="This is a caption">
+                {% for list in playlists %}
+                  <a class="gallery-item {{list.creator}}" href="{% url 'shared_playlist' list.slug%}" title="This is a caption">
                   	<img src="//i1.ytimg.com/vi/oiKj0Z_Xnjc/mqdefault.jpg" />
-                  	<h4 class="text-center">Sounds Of Africa</h4>
+                  	<h4 class="text-center">{{list}}</h4>
                     <div class="actions">
-                      <h3>Sounds Of Africa</h3>
-                      <span>3 Medias</span>
+                      <h3>{{list}}</h3>
+                      <span>{{list.medias.count}} Medias</span>
                       <ol>
-                      	<li>Stromae - Papaoutai</li>
-                      	<li>Stromae - Batard</li>
+                      	{% for media in list.medias.all|slice:":3" %}
+                      	<li>{{media}}</li>
+                      	{% empty %}
+    					Sorry, no medias in this list.
+						{% endfor %}
                       </ol>
                     </div>
                   </a>
-                  <a class="gallery-item filter2" href="#" title="This is a caption">
-                  	<img src="//i1.ytimg.com/vi/oiKj0Z_Xnjc/mqdefault.jpg" />
-                  	<h4 class="text-center">Sounds Of Africa</h4>
-                    <div class="actions">
-                      <h3>Sounds Of Africa</h3>
-                      <span>3 Medias</span>
-                      <ol>
-                      	<li>Stromae - Papaoutai</li>
-                      	<li>Stromae - Batard</li>
-                      </ol>
-                    </div>
-                  </a>
-                  <a class="gallery-item filter1" href="#" title="This is a caption">
-                  	<img src="//i1.ytimg.com/vi/oiKj0Z_Xnjc/mqdefault.jpg" />
-                  	<h4 class="text-center">Sounds Of Africa</h4>
-                    <div class="actions">
-                      <h3>Sounds Of Africa</h3>
-                      <span>3 Medias</span>
-                      <ol>
-                      	<li>Stromae - Papaoutai</li>
-                      	<li>Stromae - Batard</li>
-                      </ol>
-                    </div>
-                  </a>
-                  <a class="gallery-item filter2" href="#" title="This is a caption">
-                  	<img src="//i1.ytimg.com/vi/oiKj0Z_Xnjc/mqdefault.jpg" />
-                  	<h4 class="text-center">Sounds Of Africa</h4>
-                    <div class="actions">
-                      <h3>Sounds Of Africa</h3>
-                      <span>3 Medias</span>
-                      <ol>
-                      	<li>Stromae - Papaoutai</li>
-                      	<li>Stromae - Batard</li>
-                      </ol>
-                    </div>
-                  </a>
+                 {% endfor %}
                 </div>
               </div>
             </div>

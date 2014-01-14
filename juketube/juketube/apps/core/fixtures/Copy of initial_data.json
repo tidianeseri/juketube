@@ -1,0 +1,149 @@
+[
+  {
+    "model": "core.Genre",
+    "pk": 1,
+    "fields": {
+      "name": "Music"
+    }
+  },
+  {
+    "model": "core.Genre",
+    "fields": {
+      "name": "Avant-Garde",
+      "parent": 1
+    }
+  },
+  {
+    "model": "core.Genre",
+    "fields": {
+      "name": "Blues",
+      "parent": 1
+    }
+  },
+  {
+    "model": "core.Genre",
+    "fields": {
+      "name": "Classical",
+      "parent": 1
+    }
+  },
+  {
+    "model": "core.Genre",
+    "fields": {
+      "name": "Country",
+      "parent": 1
+    }
+  },
+  {
+    "model": "core.Genre",
+    "fields": {
+      "name": "Easy Listening",
+      "parent": 1
+    }
+  },
+  {
+    "model": "core.Genre",
+    "fields": {
+      "name": "Electronic",
+      "parent": 1
+    }
+  },
+  {
+    "model": "core.Genre",
+    "fields": {
+      "name": "Folk",
+      "parent": 1
+    }
+  },
+  {
+    "model": "core.Genre",
+    "fields": {
+      "name": "Holiday",
+      "parent": 1
+    }
+  },
+  {
+    "model": "core.Genre",
+    "fields": {
+      "name": "Jazz",
+      "parent": 1
+    }
+  },
+  {
+    "model": "core.Genre",
+    "fields": {
+      "name": "Latin",
+      "parent": 1
+    }
+  },
+  {
+    "model": "core.Genre",
+    "fields": {
+      "name": "New Age",
+      "parent": 1
+    }
+  },
+  {
+    "model": "core.Genre",
+    "fields": {
+      "name": "Pop",
+      "parent": 1
+    }
+  },
+  {
+    "model": "core.Genre",
+    "fields": {
+      "name": "R&B",
+      "parent": 1
+    }
+  },
+  {
+    "model": "core.Genre",
+    "fields": {
+      "name": "Rap",
+      "parent": 1
+    }
+  },
+  {
+    "model": "core.Genre",
+    "fields": {
+      "name": "Reggae",
+      "parent": 1
+    }
+  },
+  {
+    "model": "core.Genre",
+    "fields": {
+      "name": "Religious",
+      "parent": 1
+    }
+  },
+  {
+    "model": "core.Genre",
+    "fields": {
+      "name": "Rock",
+      "parent": 1
+    }
+  },
+  {
+    "model": "core.Genre",
+    "fields": {
+      "name": "Soundtrack",
+      "parent": 1
+    }
+  },
+  {
+    "model": "core.Genre",
+    "fields": {
+      "name": "Vocal",
+      "parent": 1
+    }
+  },
+  {
+    "model": "core.Genre",
+    "fields": {
+      "name": "World Music",
+      "parent": 1
+    }
+  },
+]

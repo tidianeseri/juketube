@@ -1,0 +1,122 @@
+[
+  {
+    "pk": 1,
+    "model": "core.Genre",
+    "fields": {
+      "rght": 20,
+      "name": "PC & Video Games",
+      "parent": null,
+      "level": 0,
+      "lft": 1,
+      "tree_id": 1
+    }
+  },
+  {
+    "pk": 2,
+    "model": "core.Genre",
+    "fields": {
+      "rght": 7,
+      "name": "Nintendo Wii",
+      "parent": 1,
+      "level": 1,
+      "lft": 2,
+      "tree_id": 1
+    }
+  },
+  {
+    "pk": 3,
+    "model": "core.Genre",
+    "fields": {
+      "rght": 4,
+      "name": "Games",
+      "parent": 2,
+      "level": 2,
+      "lft": 3,
+      "tree_id": 1
+    }
+  },
+  {
+    "pk": 4,
+    "model": "core.Genre",
+    "fields": {
+      "rght": 6,
+      "name": "Hardware & Accessories",
+      "parent": 2,
+      "level": 2,
+      "lft": 5,
+      "tree_id": 1
+    }
+  },
+  {
+    "pk": 5,
+    "model": "core.Genre",
+    "fields": {
+      "rght": 13,
+      "name": "Xbox 360",
+      "parent": 1,
+      "level": 1,
+      "lft": 8,
+      "tree_id": 1
+    }
+  },
+  {
+    "pk": 6,
+    "model": "core.Genre",
+    "fields": {
+      "rght": 10,
+      "name": "Gamesss",
+      "parent": 5,
+      "level": 2,
+      "lft": 9,
+      "tree_id": 1
+    }
+  },
+  {
+    "pk": 7,
+    "model": "core.Genre",
+    "fields": {
+      "rght": 12,
+      "name": "Hardware & Accessoriesd",
+      "parent": 5,
+      "level": 2,
+      "lft": 11,
+      "tree_id": 1
+    }
+  },
+  {
+    "pk": 8,
+    "model": "core.Genre",
+    "fields": {
+      "rght": 19,
+      "name": "PlayStation 3",
+      "parent": 1,
+      "level": 1,
+      "lft": 14,
+      "tree_id": 1
+    }
+  },
+  {
+    "pk": 9,
+    "model": "core.Genre",
+    "fields": {
+      "rght": 16,
+      "name": "Gamesff",
+      "parent": 8,
+      "level": 2,
+      "lft": 15,
+      "tree_id": 1
+    }
+  },
+  {
+    "pk": 10,
+    "model": "core.Genre",
+    "fields": {
+      "rght": 18,
+      "name": "Hardware & Accessoriesg",
+      "parent": 8,
+      "level": 2,
+      "lft": 17,
+      "tree_id": 1
+    }
+  }
+]

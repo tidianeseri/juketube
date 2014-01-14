@@ -3,7 +3,7 @@ from django.shortcuts import render, render_to_response
 from django.template import RequestContext, loader
 from django.contrib.auth.decorators import login_required
 from juketube.apps.core.functions import JukeTube
-from juketube.apps.core.models import Comments, User, Playlist, Media
+from juketube.apps.core.models import Comments, User, Playlist, Media, Genre
 from juketube.apps.core.forms import PlaylistForm
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.sessions.models import Session
@@ -102,7 +102,7 @@ def getUpdatedPlaylist(request):
 def shared_list(request, playlist_slug):
     
     playlist = Playlist.objects.get(slug = playlist_slug)
-    t = loader.get_template('shared_list.html')
+    t = loader.get_template('seven/shared.html')
     c = RequestContext(request, {'playlist':playlist, 'is_listener':Playlist.objects.is_in_playlist(playlist, request.user)})
     return HttpResponse(t.render(c))
 
@@ -122,7 +122,7 @@ def shared_create(request):
             ret.extend(random.sample(string.lowercase, 1))
             ret.extend(random.sample(string.digits + string.lowercase, 5))
             newslug = ''.join(ret)
-            print newslug
+            #print newslug
             
             if Playlist.objects.filter(slug=newslug).count() == 0:
                 slug = newslug
@@ -131,7 +131,7 @@ def shared_create(request):
         form = PlaylistForm(request.POST, instance = playlist)
         
         if form.is_valid():
-            print "valide"
+            #print "valide"
             form.save()
             Playlist.objects.join_playlist(playlist, request.user)
             return HttpResponseRedirect('/') # Redirect after POST
@@ -143,8 +143,8 @@ def shared_create(request):
     else:
         form = PlaylistForm()
     
-    return render_to_response('create_playlist.html', {
-        'form': form}, csrfContext)
+    return render_to_response('seven/create_playlist.html', {
+        'form': form, 'genres':Genre.objects.all()}, csrfContext)
 
 @login_required
 def chat(request):
@@ -179,8 +179,8 @@ def node_api(request):
         return HttpResponseServerError(str(e))    
     
 def all_playlists(request):
-    t = loader.get_template('all_playlists.html')
-    c = RequestContext(request, {'playlists':Playlist.objects.all()})
+    t = loader.get_template('seven/my_playlists.html')
+    c = RequestContext(request, {'playlists':Playlist.objects.playlists_of(request.user)})
     return HttpResponse(t.render(c))
     
 @login_required

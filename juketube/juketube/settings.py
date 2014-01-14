@@ -38,7 +38,10 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'juketube.apps.core',
     'juketube.apps.website',
-    'south',
+    #'south',
+    'registration',
+    'mptt',
+    'social.apps.django_app.default',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -53,6 +56,40 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'juketube.urls'
 
 WSGI_APPLICATION = 'juketube.wsgi.application'
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.core.context_processors.tz',
+    'django.core.context_processors.request',
+    'django.contrib.messages.context_processors.messages',
+    'social.apps.django_app.context_processors.backends',
+    'social.apps.django_app.context_processors.login_redirect',
+)
+
+AUTHENTICATION_BACKENDS = (
+    'social.backends.twitter.TwitterOAuth',
+    'social.backends.facebook.FacebookAppOAuth2',
+    'social.backends.facebook.FacebookOAuth2',
+    'social.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIAL_AUTH_PIPELINE = (
+    'social.pipeline.social_auth.social_details',
+    'social.pipeline.social_auth.social_uid',
+    'social.pipeline.social_auth.auth_allowed',
+    'social.pipeline.social_auth.social_user',
+    'social.pipeline.user.get_username',
+    'social.pipeline.user.create_user',
+    'social.pipeline.social_auth.associate_user',
+    'social.pipeline.social_auth.load_extra_data',
+    'social.pipeline.user.user_details',
+    'juketube.apps.core.pipelines.save_profile_picture',
+)
 
 
 # Database
@@ -86,6 +123,9 @@ STATIC_URL = '/static/'
 
 #STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'website/templates'),
 )
@@ -93,3 +133,18 @@ TEMPLATE_DIRS = (
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_URL = '/logout/'
+
+AUTH_USER_MODEL = 'core.Member'
+
+#Social Auth Login
+#AUTH_PROFILE_MODULE = 'core.Member'
+SOCIAL_AUTH_FACEBOOK_KEY = '664023400316428'
+SOCIAL_AUTH_FACEBOOK_SECRET = '0bb57f3447799ee40b8e5ce114387d2c'
+SOCIAL_AUTH_TWITTER_KEY         = ''
+SOCIAL_AUTH_TWITTER_SECRET      = ''
+GOOGLE_CONSUMER_KEY          = ''
+GOOGLE_CONSUMER_SECRET       = ''
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY      = ''
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET  = ''
+
+FACEBOOK_EXTENDED_PERMISSIONS = ['email']
