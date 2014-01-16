@@ -3,13 +3,13 @@ from django.shortcuts import render, render_to_response
 from django.template import RequestContext, loader
 from django.contrib.auth.decorators import login_required
 from juketube.apps.core.functions import JukeTube
-from juketube.apps.core.models import Comments, User, Playlist, Media, Genre
+from juketube.apps.core.models import Comments, User, Playlist, Media, Genre, PlaylistMedia
 from juketube.apps.core.forms import PlaylistForm
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.sessions.models import Session
 from django.core.exceptions import MultipleObjectsReturned
 from django.core import serializers
-import json, random, string, sys
+import json, random, string, sys, traceback
 
 def index(request):
     """
@@ -41,10 +41,11 @@ def updatePlaylist(request):
     if is_listener == True:    
         idmedia = request.POST.get('idmedia', '')
         title = request.POST.get('title', '')
+        length = request.POST.get('length', '')
         #playlist_id = request.POST.get('playlist_id', '')
         action = request.POST.get('operation', '')
         
-        #print "%s:%s"%(idmedia, title)
+        #print "%s:%s:%s"%(idmedia, title, action)
         #playlist = Playlist.objects.get(pk = playlist_id)
         
         #ajout a la playlist
@@ -52,24 +53,39 @@ def updatePlaylist(request):
             new_media = None
             try:
                 #print "dans try"
-                new_media, created = Media.objects.get_or_create(name = title, media_id = idmedia)
-                playlist.medias.add(new_media)
+                new_media, created = Media.objects.get_or_create(name = title, media_id = idmedia, length = length)
+                playlist_media = PlaylistMedia(playlist = playlist, media = new_media, position = playlist.counter)
+                playlist_media.save()
+                playlist.counter = playlist.counter + 1
+                playlist.save()
+                #playlist.medias.add(new_media)
             except MultipleObjectsReturned:
                 #print "error"
                 medias = Media.objects.filter(media_id = idmedia, name = title)
                 new_media = medias[0]            
-                playlist.medias.add(new_media)
+                #playlist.medias.add(new_media)
+                playlist_media = PlaylistMedia(playlist = playlist, media = new_media, position = playlist.counter)
+                playlist_media.save()
+                playlist.counter = playlist.counter + 1
+                playlist.save()
+            except AttributeError:
+                traceback.print_exc()
             except:
                 print "Unexpected error:", sys.exc_info()[0]
+                traceback.print_exc()
                 raise
         elif action == "rem":
-            new_media = None
+            the_media = None
             try:
                 #print "dans rem"
-                new_media = Media.objects.get(id = idmedia)
-                playlist.medias.remove(new_media)
+                the_media = Media.objects.get(id = idmedia)
+                playlist_media = PlaylistMedia.objects.get(playlist = playlist, media = the_media, position = title)
+                playlist_media.delete()
+            except AttributeError:
+                traceback.print_exc()
             except:
                 print "Unexpected error:", sys.exc_info()[0]
+                traceback.print_exc()
                 raise
         elif action == "clr":
             try:
@@ -79,7 +95,8 @@ def updatePlaylist(request):
                 raise
         #print playlist.medias.all()
         #result =  playlist.medias.all()
-        result = serializers.serialize('json', playlist.medias.all(), fields=('pk','media_id','name'))
+        #result = serializers.serialize('json', playlist.medias.all(), fields=('pk','media_id','name'))        
+        result = serializers.serialize('json', playlist.playlistmedia_set.all(), relations=('media',))
         
         return HttpResponse(result, content_type="application/json")
 

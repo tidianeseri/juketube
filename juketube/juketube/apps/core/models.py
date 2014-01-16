@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from juketube import settings
 from mptt.models import MPTTModel, TreeForeignKey
+import time
 
 User = settings.AUTH_USER_MODEL
 #http://stackoverflow.com/questions/3759006/generating-a-non-sequential-id-pk-for-a-django-model
@@ -43,6 +44,9 @@ class Media(models.Model):
     def __unicode__(self):
         return self.name
     
+    def time(self):
+        return time.strftime('%H:%M:%S', time.gmtime(self.length))
+    
 class PlaylistManager(models.Manager):
     """
     Manager for playlists
@@ -80,6 +84,7 @@ class Playlist(models.Model):
     counter = models.IntegerField(default=0)
     genre = models.ManyToManyField(Genre, related_name="+")
     public = models.BooleanField(default=True)
+    editable = models.BooleanField(default=True)
     
     objects = PlaylistManager()
     

@@ -3,17 +3,17 @@
 {% block pagetitle %} JukeTube{% endblock %}
 {% block content %}
 <div class="row">
-       <div class="col-md-3">
-       <div class="widget-container fluid-height list green">
-         <div class="heading">
-           <i class="glyphicon glyphicon-list"></i>Search Results
-         </div>
-         <div class="widget-content padded">
-         	<table class="table table-filters table-list" id="results-table">
-            </table>
-         </div>
-         </div>
-       </div>
+	<div class="col-md-3">
+		<div class="widget-container fluid-height list green">
+			<div class="heading">
+				<i class="glyphicon glyphicon-list"></i>Search Results
+			</div>
+			<div class="widget-content padded">
+				<table class="table table-filters table-list" id="results-table">
+				</table>
+			</div>
+		</div>
+	</div>
 
 	<div class="col-md-6">
 		<div class="widget-container fluid-height list green">
@@ -30,8 +30,9 @@
 					enabled to view this video.</div>
 			</div>
 			<div class="widget-content padded">
-         	<table class="table table-filters table-list table-playlist" id="playlist-table">
-              </table>
+				<table class="table table-filters table-list table-playlist"
+					id="playlist-table">
+				</table>
 			</div>
 		</div>
 	</div>
@@ -43,18 +44,16 @@
 			</div>
 			<div class="widget-content padded" id="next-video">
 				<div class="next-video-img">
-					<a href="#"><img
-						src="#" alt="Miniature"
-						width="100%"></a>
+					<a href="#"><img src="#" alt="Miniature" width="100%"></a>
 				</div>
 				<div class="next-video-infos">
 					<a href="#"><strong></strong></a>
 					<h5></h5>
 				</div>
 			</div>
-			
-         	<table class="table table-filters table-list" id="playlist-table2">
-            </table>
+
+			<table class="table table-filters table-list" id="playlist-table2">
+			</table>
 		</div>
 	</div>
 </div>
@@ -103,7 +102,7 @@
 	  ytplayer = new YT.Player('ytapiplayer', {
 	    height: 'auto',
 	    width: 'auto',
-	    videoId: 'Tt3Ny1u7CPI',
+	    videoId: 'T0BlXy3Roj4',
     	events: {
             'onReady': onYouTubePlayerReady,
             'onStateChange': onytplayerStateChange

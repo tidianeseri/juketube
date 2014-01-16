@@ -46,7 +46,8 @@ iframe {
 
 /*Tableau de resultats */
 .table-list td.thumbvideo {
-	width: 30%;
+	width: 20%;
+	padding: 4px;
 }
 .cueButton i {
 	font-size: 2em;

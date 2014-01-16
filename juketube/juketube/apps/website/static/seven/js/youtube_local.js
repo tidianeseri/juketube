@@ -4,14 +4,52 @@ function buildTable(items, objVideo, index)
 	var seconds = objVideo.duration - minutes * 60;
 	objVideo.time = minutes + ":" + seconds;
 	items.push("<tr>" +
-			"<td class='thumbvideo'><div class='arrow-left'></div>" +
-			"<a href='javascript:loadVideo(\"" + objVideo.id + "\");'><img src='" + objVideo.img + "' alt='Miniature' width='100%'></a>" +
-			"</td><td>" +
-			"<a href='javascript:loadVideo(\"" + objVideo.id + "\");'>" + objVideo.title + " " + objVideo.time +"</a>" +
-			"</td><td>" +
-			"<div class='cueButton'>" +
-			"<a href='javascript:cueVideo("+ index +");'><i class='icon-plus pull-right'></i></a>" +
-			"</div></td></tr>");
+					"<td class='thumbvideo'><div class='arrow-left'></div>" +
+						"<a href='javascript:loadVideo(\"" + objVideo.id + "\");'><img src='" + objVideo.img + "' alt='Miniature' width='100%'></a>" +
+					"</td>" +
+					"<td>" +
+						"<a href='javascript:loadVideo(\"" + objVideo.id + "\");'>" + objVideo.title + " " + objVideo.time +"</a>" +
+						"</td>" +
+					"<td>" +
+						"<div class='cueButton'>" +
+						"<a href='javascript:cueVideo("+ index +");'><i class='icon-plus pull-right'></i></a>" +
+						"</div>" +
+					"</td>" +
+				"</tr>");
+}
+
+function buildPlaylistTable(items, objVideo, index)
+{
+	var minutes = Math.floor(objVideo.duration / 60);
+	var seconds = objVideo.duration - minutes * 60;
+	objVideo.time = minutes + ":" + seconds;
+	items.push("<tr id=\"" + objVideo.id + "\">" +
+					"<td class='thumbvideo'><div class='arrow-left'></div>" +
+						"<a href='javascript:loadVideo(\"" + objVideo.id + "\");'>" +
+						"<img src='http://i.ytimg.com/vi/" + objVideo.id + "/hqdefault.jpg' alt='Miniature' width='100%'></a>" +
+					"</td>" +
+					"<td>" +
+						"<a href='javascript:loadVideo(\"" + objVideo.id + "\");'>" + objVideo.title +"</a>" +
+						"</td>" +
+					"<td><h5>" + objVideo.time +"</h5></td>" +
+					"<td>" +
+						"<div class='cueButton'>" +
+						"<a href='javascript:removeVideo(\""+ objVideo.pk +"\",\""+ objVideo.position +"\");'><i class='icon-minus pull-right'></i></a>" +
+						"</div>" +
+					"</td>" +
+				"</tr>");
+	/*
+	<tr id="jGJ1I-b29mw">
+	<td class="thumbvideo">
+		<div class="arrow-left"></div>
+		<a href='javascript:loadVideo("{{ media.media_id }}");'>
+		<img src="http://i.ytimg.com/vi/{{ media.media_id }}/hqdefault.jpg" alt="Miniature" width="100%">
+		</a>
+	</td>
+	<td><a href='javascript:loadVideo("{{ media.media_id }}");'>{{ media.name }}</a></td>
+	<td><h5>78:16</h5></td>
+	{% if is_listener %}<td><div class="cueButton"><a href='javascript:removeVideo("{{ media.id }}","{{ media.position }}");'><i class="icon-minus pull-right"></i></a></div></td>{% endif %}
+	</tr>*/
 }
 
 $(document).ready(function(){

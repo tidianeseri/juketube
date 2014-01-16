@@ -1,66 +1,32 @@
 {% extends "seven/base.html" %}
 {% load i18n %}
-{% block pagetitle %} Shared Playlist: Sounds of Africa{% endblock %}
+{% block pagetitle %} {{playlist}} <span class="pull-right">Slug: <em>{{playlist.slug}}</em></span>{% endblock %}
 {% block content %}
+  <form id="toQueue" action="/updatePlaylist/" method="post">{% csrf_token %}
+	  <input type="hidden" id="idmedia" name="idmedia">
+	  <input type="hidden" id="title" name="title">
+  	  <input type="hidden" id="length" name="length">
+  	  <input type="hidden" id="position" name="position">
+	  <input type="hidden" id="operation" name="operation">
+	  <input type="hidden" id="playlist_id" name="playlist_id" value="{{playlist.id}}">
+  </form>
+  
 <div class="row">
 Currently listening: <a href="#">Momo</a>, <a href="#">Jean</a>, <a href="#">Pierre</a>, <a href="#">Mamadou</a>
+<span class="pull-right" id="connection-status"><em>Connecting...</em></span>
 </div>
 <div class="row">
-       <div class="col-md-3">
-       <div class="widget-container fluid-height list green">
-         <div class="heading">
-           <i class="glyphicon glyphicon-list"></i>Search Results
-         </div>
-         <div class="widget-content padded">
-         	<table class="table table-filters table-list">
-                <tbody>
-                  <tr>
-                    <td class="thumbvideo">
-                      <div class="arrow-left"></div>
-                      <a href="#"><img src="//i1.ytimg.com/vi/oiKj0Z_Xnjc/mqdefault.jpg" alt="Miniature" width="100%"></a>
-                    </td>
-                    <td>
-                      <a href="#">Stromae - Papaoutai</a>
-                    </td>
-                    <td>
-                      <div class="cueButton">
-                        <a href="#"><i class="icon-plus pull-right"></i></a>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="thumbvideo">
-                      <div class="arrow-left"></div>
-                      <a href="#"><img src="//i1.ytimg.com/vi/oiKj0Z_Xnjc/mqdefault.jpg" alt="Miniature" width="100%"></a>
-                    </td>
-                    <td>
-                      <a href="#">Stromae - Papaoutai</a>
-                    </td>
-                    <td>
-                      <div class="cueButton">
-                        <a href="#"><i class="icon-plus pull-right"></i></a>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="thumbvideo">
-                      <div class="arrow-left"></div>
-                      <a href="#"><img src="//i1.ytimg.com/vi/oiKj0Z_Xnjc/mqdefault.jpg" alt="Miniature" width="100%"></a>
-                    </td>
-                    <td>
-                      <a href="#">Stromae - Papaoutai</a>
-                    </td>
-                    <td>
-                      <div class="cueButton">
-                        <a href="#"><i class="icon-plus pull-right"></i></a>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-         </div>
-         </div>
-       </div>
+	<div class="col-md-3">
+		<div class="widget-container fluid-height list green">
+			<div class="heading">
+				<i class="glyphicon glyphicon-list"></i>Search Results
+			</div>
+			<div class="widget-content padded">
+				<table class="table table-filters table-list" id="results-table">
+				</table>
+			</div>
+		</div>
+	</div>
 
 	<div class="col-md-6">
 		<div class="widget-container fluid-height list green">
@@ -77,61 +43,23 @@ Currently listening: <a href="#">Momo</a>, <a href="#">Jean</a>, <a href="#">Pie
 					enabled to view this video.</div>
 			</div>
 			<div class="widget-content padded">
-         	<table class="table table-filters table-list table-playlist">
-                <tbody>
-                  <tr>
-                    <td class="thumbvideo">
-                      <div class="arrow-left"></div>
-                      <a href="#"><img src="//i1.ytimg.com/vi/oiKj0Z_Xnjc/mqdefault.jpg" alt="Miniature" width="100%"></a>
-                    </td>
-                    <td>
-                      <a href="#">Stromae - Papaoutai</a>
-                    </td>
-                    <td>
-                      <h5>3:32</h5>
-                    </td>
-                    <td>
-                      <div class="cueButton">
-                        <a href="#"><i class="icon-plus pull-right"></i></a>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="thumbvideo">
-                      <div class="arrow-left"></div>
-                      <a href="#"><img src="//i1.ytimg.com/vi/oiKj0Z_Xnjc/mqdefault.jpg" alt="Miniature" width="100%"></a>
-                    </td>
-                    <td>
-                      <a href="#">Stromae - Papaoutai</a>
-                    </td>
-                    <td>
-                      <h5>3:32</h5>
-                    </td>
-                    <td>
-                      <div class="cueButton">
-                        <a href="#"><i class="icon-plus pull-right"></i></a>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="thumbvideo">
-                      <div class="arrow-left"></div>
-                      <a href="#"><img src="//i1.ytimg.com/vi/oiKj0Z_Xnjc/mqdefault.jpg" alt="Miniature" width="100%"></a>
-                    </td>
-                    <td>
-                      <a href="#">Stromae - Papaoutai</a>
-                    </td>
-                    <td>
-                      <h5>3:32</h5>
-                    </td>
-                    <td>
-                      <div class="cueButton">
-                        <a href="#"><i class="icon-plus pull-right"></i></a>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+				<table class="table table-filters table-list table-playlist"
+					id="playlist-table">
+					{% for media in playlist.playlistmedia_set.all %}
+					<tr id="{{ media.media.media_id }}">
+						<td class="thumbvideo">
+							<div class="arrow-left"></div>
+							<a href='javascript:loadVideo("{{ media.media.media_id }}");'>
+							<img src="http://i.ytimg.com/vi/{{ media.media.media_id }}/hqdefault.jpg" alt="Miniature" width="100%"></a>
+						</td>
+						<td class="track-title">
+							<a href='javascript:loadVideo("{{ media.media.media_id }}",this);'>{{ media.media.name }}</a>
+						</td>
+						<td class="track-time"><h5>{{ media.media.time }}</h5></td>
+						{% if is_listener %}<td><div class="cueButton"><a href='javascript:removeVideo("{{ media.media.id }}","{{ media.position }}");'><i class="icon-minus pull-right"></i></a></div></td>{% endif %}
+					</tr>
+					{% endfor %}
+				</table>
 			</div>
 		</div>
 	</div>
@@ -141,90 +69,52 @@ Currently listening: <a href="#">Momo</a>, <a href="#">Jean</a>, <a href="#">Pie
 			<div class="heading">
 				<i class="glyphicon glyphicon-time"></i>Next Video
 			</div>
-			<div class="widget-content padded">
-				<div>
-					<a href="#"><img
-						src="//i1.ytimg.com/vi/oiKj0Z_Xnjc/mqdefault.jpg" alt="Miniature"
-						width="100%"></a>
+			<div class="widget-content padded" id="next-video">
+				<div class="next-video-img">
+					<a href="#"><img src="" alt="Next Video" width="100%"></a>
 				</div>
-				<div>
-					<a href="#"><strong>Stromae - Papaoutai</strong></a>
-					<h5>3:32</h5>
+				<div class="next-video-infos">
+					<a href="#"><strong></strong></a>
+					<h5></h5>
 				</div>
 			</div>
-			
-         	<table class="table table-filters table-list">
-                <tbody>
-                  <tr>
-                    <td class="thumbvideo">
-                      <div class="arrow-left"></div>
-                      <a href="#"><img src="//i1.ytimg.com/vi/oiKj0Z_Xnjc/mqdefault.jpg" alt="Miniature" width="100%"></a>
-                    </td>
-                    <td>
-                      <a href="#">Stromae - Papaoutai</a>
-                    </td>
-                    <td>
-                      <h5>3:32</h5>
-                    </td>
-                    <td>
-                      <div class="cueButton">
-                        <a href="#"><i class="icon-plus pull-right"></i></a>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="thumbvideo">
-                      <div class="arrow-left"></div>
-                      <a href="#"><img src="//i1.ytimg.com/vi/oiKj0Z_Xnjc/mqdefault.jpg" alt="Miniature" width="100%"></a>
-                    </td>
-                    <td>
-                      <a href="#">Stromae - Papaoutai</a>
-                    </td>
-                    <td>
-                      <h5>3:32</h5>
-                    </td>
-                    <td>
-                      <div class="cueButton">
-                        <a href="#"><i class="icon-minus pull-right"></i></a>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="thumbvideo">
-                      <div class="arrow-left"></div>
-                      <a href="#"><img src="//i1.ytimg.com/vi/oiKj0Z_Xnjc/mqdefault.jpg" alt="Miniature" width="100%"></a>
-                    </td>
-                    <td>
-                      <a href="#">Stromae - Papaoutai</a>
-                    </td>
-                    <td>
-                      <h5>3:32</h5>
-                    </td>
-                    <td>
-                      <div class="cueButton">
-                        <a href="#"><i class="icon-plus pull-right"></i></a>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+
+			<table class="table table-filters table-list" id="playlist-table2">
+			{% for media in playlist.playlistmedia_set.all %}
+				<tr id="{{ media.media.media_id }}">
+				<td class="thumbvideo">
+					<div class="arrow-left"></div>
+					<a href='javascript:loadVideo("{{ media.media.media_id }}");'>
+					<img src="http://i.ytimg.com/vi/{{ media.media.media_id }}/hqdefault.jpg" alt="Miniature" width="100%">
+					</a>
+				</td>
+				<td class="track-title"><a href='javascript:loadVideo("{{ media.media.media_id }}");'>{{ media.media.name }}</a></td>
+				<td class="track-time"><h5>{{ media.media.time }}</h5></td>
+				{% if is_listener %}<td><div class="cueButton"><a href='javascript:removeVideo("{{ media.media.id }}","{{ media.position }}");'><i class="icon-minus pull-right"></i></a></div></td>{% endif %}
+				</tr>
+			{% endfor %}
+			</table>
 		</div>
 	</div>
+</div>
 </div>
 
 <div class="row" id="about">
 <h1>Settings</h1>
 	<div class="col-md-6">
 		<div class="well">
-			<p>Name: Sounds Of Africa
-			<p>Visibility: Public
-			<p>5 Medias
+			<p>Name: {{playlist}}
+			<p>Public: {{playlist.public}}
+			<p>{{playlist.medias.count}} Medias
 		</div>
 	</div>
 	<div class="col-md-6">
 		<div class="well">
-			<h3>Owner: <a href="#">Tidileboss</a></h3>
-			<p>Registered: <a href="#">Momo</a>, <a href="#">Jean</a>, <a href="#">Pierre</a>, <a href="#">Mamadou</a>
+			<h3>Creator: <a href="#">{{playlist.creator}}</a></h3>
+			<p>Registered: 
+			{% for listener in playlist.listeners.all %}
+			<a href="#">{{ listener }} </a>
+			{% endfor %}
 		</div>
 	</div>
 </div>
@@ -233,31 +123,64 @@ Currently listening: <a href="#">Momo</a>, <a href="#">Jean</a>, <a href="#">Pie
 
 {% block pagejs %}
 <script type="text/javascript">
-var tag = document.createElement('script');
+//player = new YoutubePlayer("ytapiplayer");
+	var tag = document.createElement('script');
 
-tag.src = "https://www.youtube.com/iframe_api";
-var firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-var ytplayer;
-function onYouTubeIframeAPIReady() {
-  ytplayer = new YT.Player('ytapiplayer', {
-    height: '200',
-    width: '300',
-    videoId: 'Tt3Ny1u7CPI'
-  });
-}
-	var params = {
-		allowScriptAccess : "always"
-	};
-	var atts = {
-		id : "myytplayer"
-	};
-	swfobject
-			.embedSWF(
-					"http://www.youtube.com/v/Tt3Ny1u7CPI?enablejsapi=1&playerapiid=ytplayer&controls=1&showinfo=0&theme=light&version=3",
-					"ytapiplayer", "300", "200", "8", null, null, params, atts);
+	tag.src = "https://www.youtube.com/iframe_api";
+	var firstScriptTag = document.getElementsByTagName('script')[0];
+	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+	
+	var ytplayer;
+	function onYouTubeIframeAPIReady() {
+	  ytplayer = new YT.Player('ytapiplayer', {
+	    height: 'auto',
+	    width: 'auto',
+	    videoId: 'T0BlXy3Roj4',
+    	events: {
+            'onReady': onYouTubePlayerReady,
+            'onStateChange': onytplayerStateChange
+          }
+	  });
+	}
 </script>
-<script src="static/js/youtube_local.js"></script>
-<script src="static/js/youtube.js"></script>
+<script src="/static/seven/js/juketube.js" type="text/javascript"></script>
+{% endblock %}
+
+{% block headjs %}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
+<script src="http://localhost:4000/socket.io/socket.io.js"></script>
+<script>
+	var socket = io.connect('/', {
+		port : 4000
+	});
+	var playlist = "{{playlist.slug}}";
+
+	socket.on('connect', function() {
+		$('#connection-status').html("<em>Connected<em>");
+		console.log("connected");
+		socket.emit('playlist', playlist);
+	});
+
+	socket.on('message', function(message) {
+		//alert(message);
+		refreshPlaylist("{{playlist.id}}");
+	});
+
+	$(document).ready(function() {
+
+		var entry_el = $('#ping');
+		//console.log(entry_el);
+
+		entry_el.click(function() {
+			//When enter is pressed send input value to node server
+			var msg = "{{playlist.slug}}";
+			console.log("msg envoye");
+			if (msg) {
+				socket.emit('send_message', msg, function(data) {
+					console.log(data);
+				});
+			}
+		});
+	});
+</script>
 {% endblock %}

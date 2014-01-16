@@ -148,3 +148,8 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_KEY      = ''
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET  = ''
 
 FACEBOOK_EXTENDED_PERMISSIONS = ['email']
+
+#DjangoFullSerializer
+SERIALIZATION_MODULES = {
+    'json': 'wadofstuff.django.serializers.json'
+}
