@@ -9,7 +9,7 @@ class PlaylistForm(ModelForm):
     
     class Meta:
         model = Playlist
-        fields = ('name','public','genre') 
+        fields = ('name','public','genre', 'editable') 
         
     def __init__(self, *args, **kwargs):
         super(PlaylistForm, self).__init__(*args, **kwargs)

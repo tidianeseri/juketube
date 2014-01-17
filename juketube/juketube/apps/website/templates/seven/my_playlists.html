@@ -31,19 +31,19 @@
               <div class="widget-content padded my-playlists">
                 <div class="gallery-container">
                 {% for list in playlists %}
-                  <a class="gallery-item {{list.creator}}" href="{% url 'shared_playlist' list.slug%}" title="This is a caption">
-                  	<img src="//i1.ytimg.com/vi/oiKj0Z_Xnjc/mqdefault.jpg" />
+                  <a class="gallery-item {{list.creator}}" href="{% url 'shared_playlist' list.slug%}" title="{{list}}">
+                  	<img src="//i1.ytimg.com/vi/{{list.medias.all.0.media_id}}/mqdefault.jpg" />
                   	<h4 class="text-center">{{list}}</h4>
                     <div class="actions">
-                      <h3>{{list}}</h3>
+                      <!-- <h3>{{list}}</h3> -->
                       <span>{{list.medias.count}} Medias</span>
-                      <ol>
+                      <ul>
                       	{% for media in list.medias.all|slice:":3" %}
                       	<li>{{media}}</li>
                       	{% empty %}
     					Sorry, no medias in this list.
 						{% endfor %}
-                      </ol>
+                      </ul>
                     </div>
                   </a>
                  {% endfor %}

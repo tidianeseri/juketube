@@ -111,7 +111,7 @@ def getUpdatedPlaylist(request):
     
     #print request.GET
 
-    result = serializers.serialize('json', playlist.medias.all(), fields=('pk','media_id','name'))
+    result = serializers.serialize('json', playlist.playlistmedia_set.all(), relations=('media',))
 
     return HttpResponse(result, content_type="application/json")
 
@@ -151,7 +151,7 @@ def shared_create(request):
             #print "valide"
             form.save()
             Playlist.objects.join_playlist(playlist, request.user)
-            return HttpResponseRedirect('/') # Redirect after POST
+            return HttpResponseRedirect('/playlists/%s/' % playlist.slug) # Redirect after POST
         else:
             print "non valide"
             print form.errors

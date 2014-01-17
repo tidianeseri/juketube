@@ -9,11 +9,13 @@
   	  <input type="hidden" id="position" name="position">
 	  <input type="hidden" id="operation" name="operation">
 	  <input type="hidden" id="playlist_id" name="playlist_id" value="{{playlist.id}}">
+	  <input type="hidden" id="playlist_slug" name="playlist_slug" value="{{playlist.slug}}">
   </form>
   
 <div class="row">
-Currently listening: <a href="#">Momo</a>, <a href="#">Jean</a>, <a href="#">Pierre</a>, <a href="#">Mamadou</a>
+Currently listening: <span id="current-listeners"></span>
 <span class="pull-right" id="connection-status"><em>Connecting...</em></span>
+<button class="btn" id="ping">Ping</button>
 </div>
 <div class="row">
 	<div class="col-md-3">
@@ -71,11 +73,11 @@ Currently listening: <a href="#">Momo</a>, <a href="#">Jean</a>, <a href="#">Pie
 			</div>
 			<div class="widget-content padded" id="next-video">
 				<div class="next-video-img">
-					<a href="#"><img src="" alt="Next Video" width="100%"></a>
+					<a href="#"><img src="http://i.ytimg.com/vi/{{ playlist.medias.all.0.media_id }}/hqdefault.jpg" alt="Next Video" width="100%"></a>
 				</div>
 				<div class="next-video-infos">
-					<a href="#"><strong></strong></a>
-					<h5></h5>
+					<a href="#"><strong>{{ playlist.medias.all.0 }}</strong></a>
+					<h5>{{ playlist.medias.all.0.time }}</h5>
 				</div>
 			</div>
 
@@ -135,7 +137,7 @@ Currently listening: <a href="#">Momo</a>, <a href="#">Jean</a>, <a href="#">Pie
 	  ytplayer = new YT.Player('ytapiplayer', {
 	    height: 'auto',
 	    width: 'auto',
-	    videoId: 'T0BlXy3Roj4',
+	    videoId: '{{ playlist.medias.all.0.media_id }}',
     	events: {
             'onReady': onYouTubePlayerReady,
             'onStateChange': onytplayerStateChange
@@ -147,23 +149,41 @@ Currently listening: <a href="#">Momo</a>, <a href="#">Jean</a>, <a href="#">Pie
 {% endblock %}
 
 {% block headjs %}
+{% if playlist.editable %}
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
 <script src="http://localhost:4000/socket.io/socket.io.js"></script>
 <script>
 	var socket = io.connect('/', {
 		port : 4000
 	});
-	var playlist = "{{playlist.slug}}";
+	var playlist_slug = "{{playlist.slug}}";
 
 	socket.on('connect', function() {
 		$('#connection-status').html("<em>Connected<em>");
 		console.log("connected");
-		socket.emit('playlist', playlist);
+		socket.emit('playlist', playlist_slug);
+		socket.emit('new-user', '{{user}}');
 	});
 
-	socket.on('message', function(message) {
-		//alert(message);
+	socket.on('refresh', function(message) {
 		refreshPlaylist("{{playlist.id}}");
+	});
+	
+	socket.on('users-list', function(list) {
+		var user_list = "";
+		for (var key in list) {
+			   var obj = list[key];
+			   user_list = user_list + "<a href='#'> " + obj +"</a>,";
+			}
+		$("#current-listeners").html(user_list.slice(0, -1));
+	});
+	
+	socket.on('rcv_command', function(func, param) {
+		//Create the function
+		var fn = window[func];
+		 
+		//Call the function
+		fn(param);
 	});
 
 	$(document).ready(function() {
@@ -174,13 +194,12 @@ Currently listening: <a href="#">Momo</a>, <a href="#">Jean</a>, <a href="#">Pie
 		entry_el.click(function() {
 			//When enter is pressed send input value to node server
 			var msg = "{{playlist.slug}}";
-			console.log("msg envoye");
+			//console.log("msg envoye");
 			if (msg) {
-				socket.emit('send_message', msg, function(data) {
-					console.log(data);
-				});
+				socket.emit('send_command', msg, "loadVideo", "t7M89YJAPhM");
 			}
 		});
 	});
 </script>
+{% endif %}
 {% endblock %}

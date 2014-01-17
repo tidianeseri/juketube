@@ -1,6 +1,9 @@
 var results = [];
 var playlist = new Playlist('#playlist-table');
+playlist.slug = $('#playlist_slug').val();
 var playlist2 = new Playlist('#playlist-table2');
+playlist2.slug = $('#playlist_slug').val();
+
 
 function onYouTubePlayerReady(playerId) {
 	//console.log("player loaded");
@@ -21,7 +24,10 @@ function onytplayerStateChange(evt)
 	}
 }
 
-//Playlist Class
+/********************************************************************************************************/
+/*                                        Playlist Class               									*/
+/********************************************************************************************************/
+
 function Playlist(idPlaylist) {
 	this.idPlaylist = idPlaylist;
 	this.medias = {};
@@ -125,7 +131,18 @@ Playlist.prototype.loadMedias = function() {
 	})
 }
 
-//Local functions
+Playlist.prototype.refreshCurrentPlaying = function() {
+	if (ytplayer) {
+		if (ytplayer.getPlayerState() == 1) {
+			this.current_track = $("#"+this.current_track.attr('id'));
+			this.current_track.addClass("active");
+		}
+	}
+}
+
+/********************************************************************************************************/
+/*                                        Local Functions              									*/
+/********************************************************************************************************/
 function cueVideo(index) {	
 	results[index].time = getTime(results[index].duration);
 	playlist.cueVideo(results[index]);
@@ -157,6 +174,9 @@ function getTime(duration) {
 	var seconds = duration - minutes * 60;
 	return (minutes + ":" + seconds);
 }
+function refreshCurrentPlaying(){
+	playlist.refreshCurrentPlaying();
+}
 
 // Add To Playlist AJAX
 $("#toQueue").submit( function() {
@@ -185,15 +205,63 @@ $("#toQueue").submit( function() {
 				$('#playlist-table').html();
 				$('#playlist-table').html(items);
 				$('#playlist-table').fadeIn('fast');
-				//refreshCurrentPlaying();
+				refreshCurrentPlaying();
 			});
 			
 			//Send notification to all listeners
-			//notifyListeners(playlist);
+			notifyListeners(playlist.slug);
 		}
 	});
 return false;
 });
 
+
+/********************************************************************************************************/
+/*                                        Jukebox Functions              								*/
+/********************************************************************************************************/
+function notifyListeners(slug) {
+	//console.log("msg envoye: "+slug);
+	if(slug){
+		socket.emit('send_notification', slug, function(data){
+			//console.log(data);
+		});
+	}
+}
+
+//Fonction qui permet de refresh la table de la playlist
+//Elle est appelee chez les listeners
+function refreshPlaylist(playlistID){
+	var urlSubmit = "/getUpdatedPlaylist/";
+	$.ajax({
+		type: "GET",
+		url: urlSubmit,
+		data      : {id:playlistID},
+		success: function(response) {
+			var items = [];
+			var position = 0;
+			$.each( response, function(i,data) {
+				//console.log(data);
+				objVideo=new Object();
+				objVideo.id=data.fields.media.fields.media_id;
+				objVideo.title=data.fields.media.fields.name;
+				objVideo.pk=data.fields.media.pk;
+				//objVideo.img=data.thumbnail.hqDefault;
+				objVideo.duration=data.fields.media.fields.length;
+				objVideo.position=data.fields.position;
+				buildPlaylistTable(items, objVideo, i);
+				i++;
+			});
+			
+			$('#playlist-table').fadeOut('fast', function(){
+				$('#playlist-table').html();
+				$('#playlist-table').html(items);
+				$('#playlist-table').fadeIn('fast');
+				refreshCurrentPlaying();
+			});
+		}
+	});
+}
+
 //Runtime
 playlist.loadMedias();
+playlist2.loadMedias();

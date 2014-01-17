@@ -128,3 +128,10 @@ iframe {
 	margin-top: 5px;
 	color: white;
 }
+
+.my-playlists .actions ul {
+	padding-left: 5px;
+	margin-top: 5px;
+	list-style: none;
+	font-size: 10px;
+}

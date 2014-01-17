@@ -22,50 +22,41 @@ io.configure(function(){
 	io.set('log level', 1);
 });
 
-io.sockets.on('connection', function (socket) {
+//usernames which are currently connected to the chat
 
-	//Grab message from Redis and send to client
-	/*sub.on('message', function(channel, message){
-		socket.send(message);
-	});*/
+io.sockets.on('connection', function (socket) {
+	var list = {};
 	
 	socket.on('playlist', function (playlist) {
-		socket.join(playlist);
+		socket.join(playlist);		
+		socket.room = playlist;
+		//console.log(rooms[playlist]);
+	});
+	
+	socket.on('new-user', function (username) {
+		socket.nickname = username;
+		var roster = io.sockets.clients(socket.room);
+		roster.forEach(function(client) {
+	          //list.push(client.id);
+			list[client.id] = username;
+	      });
+		socket.broadcast.to(socket.room).emit('users-list', list);
+		socket.emit('users-list', list);
 	});
 
 	//Client is sending message through socket.io
-	socket.on('send_message', function (message) {
-		/*values = querystring.stringify({
-			comment: message,
-			sessionid: socket.handshake.cookie['sessionid'],
-		});
-
-		var options = {
-				host: 'localhost',
-				port: 8000,
-				path: '/node_api',
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/x-www-form-urlencoded',
-					'Content-Length': values.length
-				}
-		};
-
-		//Send message to Django server
-		var req = http.get(options, function(res){
-			res.setEncoding('utf8');
-
-			//Print out error message
-			res.on('data', function(message){
-				if(message != 'Everything worked :)'){
-					console.log('Message: ' + message);
-				}
-			});
-		});
-
-		req.write(values);
-		req.end();*/
-		//socket.broadcast.emit('message', "blabla");
-		socket.broadcast.to(message).emit('message', "blabla");
+	socket.on('send_notification', function (playlist) {
+		socket.broadcast.to(playlist).emit('refresh', "");
+	});
+	
+	//Send commands
+	socket.on('send_command', function (playlist, command, param) {
+		socket.broadcast.to(playlist).emit('rcv_command', command, param);
+	});
+	
+	//A la deconnection, enlever le user de la playlist
+	socket.on('disconnect', function() {
+	    delete list[socket.id];
+		socket.broadcast.to(socket.room).emit('users-list', list);
 	});
 });
