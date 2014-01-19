@@ -1,0 +1,42 @@
+{% extends "seven/base.html" %}
+{% load i18n %}
+{% block pagetitle %} Random Playlists{% endblock %}
+{% block content %}
+<div class="row">
+	<div class="form-group">
+            <label class="control-label col-md-2">Search</label>
+            <div class="col-md-7">
+              <div class="input-group">
+                <input class="form-control" type="text" placeholder="Search a playlist..."><span class="input-group-btn"><button class="btn btn-default" type="button">Go</button></span>
+              </div>
+            </div>
+          </div>
+</div>
+<div class="row">
+	<div class="col-lg-12">
+		<div class="widget-container fluid-height">
+			<div class="heading">
+				<i class="fa fa-picture-o"></i>Random Playlists
+			</div>
+			<div class="widget-content padded">
+				<ul class="gallery-grid gallery-playlist clearfix">
+				{% for list in playlists %}
+					<li>
+						<figure>
+							<img src="//i1.ytimg.com/vi/{{list.medias.all.0.media_id}}/mqdefault.jpg">
+							<div class="playlist-info"><p>{{list}}<p> {{list.medias.count}} Medias</div>
+							<div class="caption">
+								<div>by {{list.creator}}</div>
+								<span>{{list.medias.all.0}}</span>, 
+								<span>{{list.medias.all.1}}</span>
+							</div>
+						</figure>
+					</li>
+				{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

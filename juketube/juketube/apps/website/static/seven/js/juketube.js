@@ -13,14 +13,15 @@ function onytplayerStateChange(evt)
 {
 	if(evt.data == 0)
 	{
-		//console.log("Player's new state: " + evt);
+		playlist.playNext();
+		/*//console.log("Player's new state: " + evt);
 		playlist.current_track.removeClass("active")
 		//playlist.next_track = playlist.current_track.next();
 		//console.log("next:"+playlist.next_track);
 		if(playlist.next_track.attr("id")) {
 			//current_track = next;
 			playlist.loadVideo(playlist.next_track.attr("id"), "suivant");
-		}
+		}*/
 	}
 }
 
@@ -72,22 +73,27 @@ Playlist.prototype.removeVideo = function(videoID) {
 }
 
 Playlist.prototype.loadVideo = function(videoID) {
-	if (ytplayer) {
-		ytplayer.loadVideoById(videoID);
-		
-		//Si aucune track courante n'est definie, enlever la classe active
-		if(this.current_track != null && this.current_track.val() != undefined) 
-			this.current_track.removeClass("active");
-		
-		//Mettre actif la next track (erreur)
-		//if(this.next_track != null && this.next_track.val() != undefined) 
-		//	this.current_track = this.next_track;
-		//else
-			this.current_track = $('#playlist-table #'+videoID).first();
-		
-		this.current_track.addClass("active");
-		this.play();
-		this.setNext();
+	try{
+		if (ytplayer) {
+			ytplayer.loadVideoById(videoID);
+			
+			//Si aucune track courante n'est definie, enlever la classe active
+			if(this.current_track != null && this.current_track.val() != undefined) 
+				this.current_track.removeClass("active");
+			
+			//Mettre actif la next track (erreur)
+			//if(this.next_track != null && this.next_track.val() != undefined) 
+			//	this.current_track = this.next_track;
+			//else
+				this.current_track = $('#playlist-table #'+videoID).first();
+			
+			this.current_track.addClass("active");
+			this.play();
+			this.setNext();
+		}
+	}
+	catch(e) {
+		socket.emit('send_command', playlist_slug, $("#jukebox-select").val(), "loadVideo", videoID);
 	}
 }
 
@@ -99,6 +105,13 @@ Playlist.prototype.setNext = function() {
 		$('#next-video a').attr('href', 'javascript:loadVideo(\"' + this.medias[this.next_track.attr('id')].id + '\");');
 		$('#next-video .next-video-infos strong').html(this.medias[this.next_track.attr('id')].title);
 		$('#next-video .next-video-infos h5').html(this.medias[this.next_track.attr('id')].time);
+	}
+}
+
+Playlist.prototype.playNext = function() {
+	this.current_track.removeClass("active");
+	if(this.next_track.attr("id")) {
+		this.loadVideo(this.next_track.attr("id"), "suivant");
 	}
 }
 
@@ -132,12 +145,15 @@ Playlist.prototype.loadMedias = function() {
 }
 
 Playlist.prototype.refreshCurrentPlaying = function() {
-	if (ytplayer) {
-		if (ytplayer.getPlayerState() == 1) {
-			this.current_track = $("#"+this.current_track.attr('id'));
-			this.current_track.addClass("active");
+	try{
+		if (ytplayer) {
+			if (ytplayer.getPlayerState() == 1) {
+				this.current_track = $("#"+this.current_track.attr('id'));
+				this.current_track.addClass("active");
+			}
 		}
 	}
+	catch(e){}
 }
 
 /********************************************************************************************************/
@@ -265,3 +281,24 @@ function refreshPlaylist(playlistID){
 //Runtime
 playlist.loadMedias();
 playlist2.loadMedias();
+
+/*Jukebox Mode*/
+if($("#jukebox_mode").prop("checked")) 
+	$("#jukebox_name").parent().parent().hide();
+
+//Detecter le changement de l'etat d'activation
+$("#jukebox_mode").change(function() {
+	if($(this).prop("checked")) {
+		$("#jukebox_name").parent().parent().show();
+		if($("#jukebox_name").val())
+			socket.emit('declare_jukebox', playlist_slug, $("#jukebox_name").val());
+    }
+	else {
+		$("#jukebox_name").parent().parent().hide();
+		socket.emit('remove_jukebox', $("#jukebox_name").val());
+	}
+});
+$("#jukebox_name_ok").click(function() {
+	if($("#jukebox_name").val())
+		socket.emit('declare_jukebox', playlist_slug, $("#jukebox_name").val());
+});

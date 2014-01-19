@@ -23,6 +23,7 @@ io.configure(function(){
 });
 
 //usernames which are currently connected to the chat
+var basket = {};
 
 io.sockets.on('connection', function (socket) {
 	var list = {};
@@ -33,26 +34,47 @@ io.sockets.on('connection', function (socket) {
 		//console.log(rooms[playlist]);
 	});
 	
+	//When a new user connects to the playlist
 	socket.on('new-user', function (username) {
 		socket.nickname = username;
 		var roster = io.sockets.clients(socket.room);
 		roster.forEach(function(client) {
 	          //list.push(client.id);
-			list[client.id] = username;
+			list[client.id] = client.nickname;
 	      });
 		socket.broadcast.to(socket.room).emit('users-list', list);
-		socket.emit('users-list', list);
+		socket.emit('users-list', list); //send to self
 	});
-
+	
+	//When a new jukebox is announced to the playlist
+	socket.on('declare_jukebox', function (playlist, jukebox_name) {
+		if(basket[playlist] == undefined)
+			basket[playlist] = {};
+		basket[playlist][jukebox_name] = socket.id;
+	});
+	
+	socket.on('remove_jukebox', function (jukebox_name) {
+		delete basket[playlist][jukebox_name];
+	});
+	
+	socket.on('get_jukeboxes', function (playlist) {
+		socket.emit('jukebox-list', basket[playlist]);
+	});
+	
+	socket.on("send_command", function(playlist, jukebox_name, command, param){
+		var to = basket[playlist][jukebox_name];
+		io.sockets.socket(to).emit('rcv_command', command, param);;
+	});
+	
 	//Client is sending message through socket.io
 	socket.on('send_notification', function (playlist) {
 		socket.broadcast.to(playlist).emit('refresh', "");
 	});
 	
 	//Send commands
-	socket.on('send_command', function (playlist, command, param) {
+	/*socket.on('send_command', function (playlist, command, param) {
 		socket.broadcast.to(playlist).emit('rcv_command', command, param);
-	});
+	});*/
 	
 	//A la deconnection, enlever le user de la playlist
 	socket.on('disconnect', function() {

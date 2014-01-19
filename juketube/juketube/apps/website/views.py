@@ -124,6 +124,14 @@ def shared_list(request, playlist_slug):
     return HttpResponse(t.render(c))
 
 @login_required
+def remote_shared_list(request, playlist_slug):
+    
+    playlist = Playlist.objects.get(slug = playlist_slug)
+    t = loader.get_template('seven/remote_controller.html')
+    c = RequestContext(request, {'playlist':playlist, 'is_listener':Playlist.objects.is_in_playlist(playlist, request.user)})
+    return HttpResponse(t.render(c))
+
+@login_required
 def shared_create(request):
     """
         create playlist
@@ -195,9 +203,14 @@ def node_api(request):
     except Exception, e:
         return HttpResponseServerError(str(e))    
     
-def all_playlists(request):
+def my_playlists(request):
     t = loader.get_template('seven/my_playlists.html')
     c = RequestContext(request, {'playlists':Playlist.objects.playlists_of(request.user)})
+    return HttpResponse(t.render(c))
+
+def all_playlists(request):
+    t = loader.get_template('seven/all_playlists.html')
+    c = RequestContext(request, {'playlists':Playlist.objects.all()})
     return HttpResponse(t.render(c))
     
 @login_required

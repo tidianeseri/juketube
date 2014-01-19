@@ -72,12 +72,13 @@
                 </a>
                 <ul class="dropdown-menu messages">
                   <li><a href="#">
-                    <img width="34" height="34" src="{{ user.avatar.url }}" />Welcome to Juketube</a>
+                    <img width="34" height="34" src="#" />Welcome to Juketube</a>
                   </li>
                 </ul> 
               </li>-->
               <li class="dropdown user hidden-xs"><a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                <img width="34" height="34" src="{{ user.avatar.url }}" />{{user}}<b class="caret"></b></a>
+                {% if user.avatar %}<img width="34" height="34" src="{{ user.avatar.url }}" />{% endif %}
+                {{user}}<b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li><a href="#">
                     <i class="icon-user"></i>My Account</a>
@@ -113,8 +114,8 @@
                 <span aria-hidden="true" class="se7en-star"></span>Playlists<b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li><a href="{% url 'create_playlist' %}">Create</a></li>
-                  <li><a href="#">Discover</a></li>
-                  <li><a href="{% url 'all_playlists' %}">My Playlists</a></li>
+                  <li><a href="{% url 'all_playlists' %}">Discover</a></li>
+                  <li><a href="{% url 'my_playlists' %}">My Playlists</a></li>
                 </ul>
               </li>              
             </ul>
