@@ -23,7 +23,7 @@
 				{% for list in playlists %}
 					<li>
 						<figure>
-							<img src="//i1.ytimg.com/vi/{{list.medias.all.0.media_id}}/mqdefault.jpg">
+							<a href="{% url 'shared_playlist' list.slug%}"><img src="//i1.ytimg.com/vi/{{list.medias.all.0.media_id}}/mqdefault.jpg"></a>
 							<div class="playlist-info"><p>{{list}}<p> {{list.medias.count}} Medias</div>
 							<div class="caption">
 								<div>by {{list.creator}}</div>
