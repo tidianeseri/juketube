@@ -228,6 +228,6 @@ def leave_playlist(request, playlist_id):
     return HttpResponseRedirect('/playlists/'+playlist.slug)
 
 def tests(request):
-    t = loader.get_template('seven/my_playlists.html')
+    t = loader.get_template('seven/remote.html')
     c = RequestContext(request, {})
     return HttpResponse(t.render(c))

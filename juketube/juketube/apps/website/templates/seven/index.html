@@ -3,7 +3,7 @@
 {% block pagetitle %} JukeTube{% endblock %}
 {% block content %}
 <div class="row">
-	<div class="col-md-3">
+	<!-- <div class="col-md-3" id="search-div">
 		<div class="widget-container fluid-height list green">
 			<div class="heading">
 				<i class="glyphicon glyphicon-list"></i>Search Results
@@ -13,7 +13,7 @@
 				</table>
 			</div>
 		</div>
-	</div>
+	</div> -->
 
 	<div class="col-md-6">
 		<div class="widget-container fluid-height list green">
@@ -29,7 +29,7 @@
 				<div id="ytapiplayer">You need Flash player 8+ and JavaScript
 					enabled to view this video.</div>
 			</div>
-			<div class="widget-content padded">
+			<div class="widget-content padded playlist-overflow">
 				<table class="table table-filters table-list table-playlist"
 					id="playlist-table">
 				</table>
@@ -37,14 +37,23 @@
 		</div>
 	</div>
 
-	<div class="col-md-3">
+	<div class="col-md-6" id="next-div">
+		<div class="widget-container fluid-height list green" id="search-div">
+			<div class="heading">
+				<i class="glyphicon glyphicon-list"></i>Search Results
+			</div>
+			<div class="widget-content padded">
+				<table class="table table-filters table-list" id="results-table">
+				</table>
+			</div>
+		</div>
 		<div class="widget-container fluid-height list">
 			<div class="heading">
 				<i class="glyphicon glyphicon-time"></i>Next Video
 			</div>
 			<div class="widget-content padded" id="next-video">
-				<div class="next-video-img">
-					<a href="#"><img src="#" alt="Miniature" width="100%"></a>
+				<div class="next-video-img text-center">
+					<a href="#"><img src="/static/seven/images/logo.png" alt="Miniature"></a>
 				</div>
 				<div class="next-video-infos">
 					<a href="#"><strong></strong></a>

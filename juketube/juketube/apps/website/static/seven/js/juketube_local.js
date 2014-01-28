@@ -89,6 +89,10 @@ $(document).ready(function(){
 
 	$("#search").keyup(function() 
 	{
+		
+		if($('#search-div').is(":hidden")) {
+			$('#search-div').fadeIn('fast').delay(10000).fadeOut('slow');
+		}
 		var search_input = $(this).val();
 		var keyword= encodeURIComponent(search_input);
 		// Youtube API 

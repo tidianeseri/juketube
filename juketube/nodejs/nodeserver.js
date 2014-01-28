@@ -1,14 +1,21 @@
 var http = require('http');
+//local
 var server = http.createServer().listen(4000);
 var io = require('socket.io').listen(server);
 var cookie_reader = require('cookie');
+
+//webfaction
+/*var server = http.createServer().listen(32439, '127.0.0.1');
+var io = require('/home/tidianeseri/bin/node_modules/socket.io').listen(server);
+var cookie_reader = require('/home/tidianeseri/bin/node_modules/cookie');*/
+
 var querystring = require('querystring');
 
-var redis = require('socket.io/node_modules/redis');
+/*var redis = require('socket.io/node_modules/redis');
 var sub = redis.createClient();
 
 //Subscribe to the Redis chat channel
-sub.subscribe('chat');
+sub.subscribe('chat');*/
 
 //Configure socket.io to store cookie set by Django
 io.configure(function(){

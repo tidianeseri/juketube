@@ -1,122 +1,243 @@
-[
-  {
+[{
     "pk": 1,
-    "model": "core.Genre",
+    "model": "core.genre",
     "fields": {
-      "rght": 20,
-      "name": "PC & Video Games",
-      "parent": null,
-      "level": 0,
-      "lft": 1,
-      "tree_id": 1
+        "rght": 44,
+        "name": "Music",
+        "parent": null,
+        "level": 0,
+        "lft": 1,
+        "tree_id": 1
     }
-  },
-  {
+}, {
     "pk": 2,
-    "model": "core.Genre",
+    "model": "core.genre",
     "fields": {
-      "rght": 7,
-      "name": "Nintendo Wii",
-      "parent": 1,
-      "level": 1,
-      "lft": 2,
-      "tree_id": 1
+        "rght": 3,
+        "name": "Avant-Garde",
+        "parent": 1,
+        "level": 1,
+        "lft": 2,
+        "tree_id": 1
     }
-  },
-  {
+}, {
     "pk": 3,
-    "model": "core.Genre",
+    "model": "core.genre",
     "fields": {
-      "rght": 4,
-      "name": "Games",
-      "parent": 2,
-      "level": 2,
-      "lft": 3,
-      "tree_id": 1
+        "rght": 5,
+        "name": "Blues",
+        "parent": 1,
+        "level": 1,
+        "lft": 4,
+        "tree_id": 1
     }
-  },
-  {
+}, {
     "pk": 4,
-    "model": "core.Genre",
+    "model": "core.genre",
     "fields": {
-      "rght": 6,
-      "name": "Hardware & Accessories",
-      "parent": 2,
-      "level": 2,
-      "lft": 5,
-      "tree_id": 1
+        "rght": 7,
+        "name": "Classical",
+        "parent": 1,
+        "level": 1,
+        "lft": 6,
+        "tree_id": 1
     }
-  },
-  {
+}, {
     "pk": 5,
-    "model": "core.Genre",
+    "model": "core.genre",
     "fields": {
-      "rght": 13,
-      "name": "Xbox 360",
-      "parent": 1,
-      "level": 1,
-      "lft": 8,
-      "tree_id": 1
+        "rght": 9,
+        "name": "Country",
+        "parent": 1,
+        "level": 1,
+        "lft": 8,
+        "tree_id": 1
     }
-  },
-  {
+}, {
     "pk": 6,
-    "model": "core.Genre",
+    "model": "core.genre",
     "fields": {
-      "rght": 10,
-      "name": "Gamesss",
-      "parent": 5,
-      "level": 2,
-      "lft": 9,
-      "tree_id": 1
+        "rght": 11,
+        "name": "Easy Listening",
+        "parent": 1,
+        "level": 1,
+        "lft": 10,
+        "tree_id": 1
     }
-  },
-  {
+}, {
     "pk": 7,
-    "model": "core.Genre",
+    "model": "core.genre",
     "fields": {
-      "rght": 12,
-      "name": "Hardware & Accessoriesd",
-      "parent": 5,
-      "level": 2,
-      "lft": 11,
-      "tree_id": 1
+        "rght": 13,
+        "name": "Electronic",
+        "parent": 1,
+        "level": 1,
+        "lft": 12,
+        "tree_id": 1
     }
-  },
-  {
+}, {
     "pk": 8,
-    "model": "core.Genre",
+    "model": "core.genre",
     "fields": {
-      "rght": 19,
-      "name": "PlayStation 3",
-      "parent": 1,
-      "level": 1,
-      "lft": 14,
-      "tree_id": 1
+        "rght": 15,
+        "name": "Folk",
+        "parent": 1,
+        "level": 1,
+        "lft": 14,
+        "tree_id": 1
     }
-  },
-  {
+}, {
     "pk": 9,
-    "model": "core.Genre",
+    "model": "core.genre",
     "fields": {
-      "rght": 16,
-      "name": "Gamesff",
-      "parent": 8,
-      "level": 2,
-      "lft": 15,
-      "tree_id": 1
+        "rght": 17,
+        "name": "Holiday",
+        "parent": 1,
+        "level": 1,
+        "lft": 16,
+        "tree_id": 1
     }
-  },
-  {
+}, {
     "pk": 10,
-    "model": "core.Genre",
+    "model": "core.genre",
     "fields": {
-      "rght": 18,
-      "name": "Hardware & Accessoriesg",
-      "parent": 8,
-      "level": 2,
-      "lft": 17,
-      "tree_id": 1
+        "rght": 19,
+        "name": "Jazz",
+        "parent": 1,
+        "level": 1,
+        "lft": 18,
+        "tree_id": 1
     }
-  }
-]
+}, {
+    "pk": 11,
+    "model": "core.genre",
+    "fields": {
+        "rght": 21,
+        "name": "Latin",
+        "parent": 1,
+        "level": 1,
+        "lft": 20,
+        "tree_id": 1
+    }
+}, {
+    "pk": 12,
+    "model": "core.genre",
+    "fields": {
+        "rght": 23,
+        "name": "New Age",
+        "parent": 1,
+        "level": 1,
+        "lft": 22,
+        "tree_id": 1
+    }
+}, {
+    "pk": 13,
+    "model": "core.genre",
+    "fields": {
+        "rght": 25,
+        "name": "Pop",
+        "parent": 1,
+        "level": 1,
+        "lft": 24,
+        "tree_id": 1
+    }
+}, {
+    "pk": 14,
+    "model": "core.genre",
+    "fields": {
+        "rght": 27,
+        "name": "R&B",
+        "parent": 1,
+        "level": 1,
+        "lft": 26,
+        "tree_id": 1
+    }
+}, {
+    "pk": 15,
+    "model": "core.genre",
+    "fields": {
+        "rght": 29,
+        "name": "Rap",
+        "parent": 1,
+        "level": 1,
+        "lft": 28,
+        "tree_id": 1
+    }
+}, {
+    "pk": 16,
+    "model": "core.genre",
+    "fields": {
+        "rght": 31,
+        "name": "Reggae",
+        "parent": 1,
+        "level": 1,
+        "lft": 30,
+        "tree_id": 1
+    }
+}, {
+    "pk": 17,
+    "model": "core.genre",
+    "fields": {
+        "rght": 33,
+        "name": "Religious",
+        "parent": 1,
+        "level": 1,
+        "lft": 32,
+        "tree_id": 1
+    }
+}, {
+    "pk": 18,
+    "model": "core.genre",
+    "fields": {
+        "rght": 35,
+        "name": "Rock",
+        "parent": 1,
+        "level": 1,
+        "lft": 34,
+        "tree_id": 1
+    }
+}, {
+    "pk": 19,
+    "model": "core.genre",
+    "fields": {
+        "rght": 37,
+        "name": "Soundtrack",
+        "parent": 1,
+        "level": 1,
+        "lft": 36,
+        "tree_id": 1
+    }
+}, {
+    "pk": 22,
+    "model": "core.genre",
+    "fields": {
+        "rght": 39,
+        "name": "Various",
+        "parent": 1,
+        "level": 1,
+        "lft": 38,
+        "tree_id": 1
+    }
+}, {
+    "pk": 20,
+    "model": "core.genre",
+    "fields": {
+        "rght": 41,
+        "name": "Vocal",
+        "parent": 1,
+        "level": 1,
+        "lft": 40,
+        "tree_id": 1
+    }
+}, {
+    "pk": 21,
+    "model": "core.genre",
+    "fields": {
+        "rght": 43,
+        "name": "World Music",
+        "parent": 1,
+        "level": 1,
+        "lft": 42,
+        "tree_id": 1
+    }
+}]

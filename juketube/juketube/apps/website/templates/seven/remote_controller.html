@@ -5,6 +5,7 @@
 {% endblock %}
 {% block content %}
   <form id="toQueue" action="/updatePlaylist/" method="post">{% csrf_token %}
+  	<input type="hidden" id="idremote" name="idremote" value="remote">
 	  <input type="hidden" id="idmedia" name="idmedia">
 	  <input type="hidden" id="title" name="title">
   	  <input type="hidden" id="length" name="length">
@@ -20,7 +21,7 @@ Currently listening: <span id="current-listeners"></span>
 <!-- <button class="btn" id="ping">Ping</button>  -->
 </div>
 <div class="row">
-	<div class="col-md-3">
+	<div class="col-md-5">
 		<div class="widget-container fluid-height list green">
 			<div class="heading">
 				<i class="glyphicon glyphicon-list"></i>Search Results
@@ -32,7 +33,7 @@ Currently listening: <span id="current-listeners"></span>
 		</div>
 	</div>
 
-	<div class="col-md-6">
+	<div class="col-md-7">
 		<div class="widget-container fluid-height list green">
 			<div class="heading">
 				<span class="glyphicon glyphicon-facetime-video"></span>Video <span
@@ -42,7 +43,19 @@ Currently listening: <span id="current-listeners"></span>
 					class="glyphicon glyphicon-step-backward pull-right"></span>
 					<a class="pull-right" href="{% url 'shared_playlist' playlist.slug%}">Normal</a>
 			</div>
+			
+			<div class="widget-content padded text-center remote-controls">
+				<a href='#'><span class="glyphicon glyphicon-step-backward "></span></a>
+				<a href='javascript:stop()'><span class="glyphicon glyphicon-stop "></span></a> 
+				<a href='javascript:play()'><span class="glyphicon glyphicon-play "></span></a>
+				<a href='javascript:playlist.playNext()'><span class="glyphicon glyphicon-step-forward "></span></a>
+				
+				<!-- <div class="row">
+				Current Song: Mama Mia
+				</div> -->
+			</div>
 			<div class="widget-content padded">
+			
 				<div class="form-group">
 		            <label class="control-label col-md-2">Remote Player</label>
 		            <div class="col-md-7">
@@ -69,39 +82,6 @@ Currently listening: <span id="current-listeners"></span>
 					{% endfor %}
 				</table>
 			</div>
-		</div>
-	</div>
-
-	<div class="col-md-3">
-		<div class="widget-container fluid-height list">
-			<div class="heading">
-				<i class="glyphicon glyphicon-time"></i>Next Video
-			</div>
-			<div class="widget-content padded" id="next-video">
-				<div class="next-video-img">
-					<a href="#"><img src="http://i.ytimg.com/vi/{{ playlist.medias.all.0.media_id }}/hqdefault.jpg" alt="Next Video" width="100%"></a>
-				</div>
-				<div class="next-video-infos">
-					<a href="#"><strong>{{ playlist.medias.all.0 }}</strong></a>
-					<h5>{{ playlist.medias.all.0.time }}</h5>
-				</div>
-			</div>
-
-			<table class="table table-filters table-list" id="playlist-table2">
-			{% for media in playlist.playlistmedia_set.all %}
-				<tr id="{{ media.media.media_id }}">
-				<td class="thumbvideo">
-					<div class="arrow-left"></div>
-					<a href='javascript:loadVideo("{{ media.media.media_id }}");'>
-					<img src="http://i.ytimg.com/vi/{{ media.media.media_id }}/hqdefault.jpg" alt="Miniature" width="100%">
-					</a>
-				</td>
-				<td class="track-title"><a href='javascript:loadVideo("{{ media.media.media_id }}");'>{{ media.media.name }}</a></td>
-				<td class="track-time"><h5>{{ media.media.time }}</h5></td>
-				{% if is_listener %}<td><div class="cueButton"><a href='javascript:removeVideo("{{ media.media.id }}","{{ media.position }}");'><i class="icon-minus pull-right"></i></a></div></td>{% endif %}
-				</tr>
-			{% endfor %}
-			</table>
 		</div>
 	</div>
 </div>
@@ -150,63 +130,12 @@ Currently listening: <span id="current-listeners"></span>
 {% block headjs %}
 {% if playlist.editable %}
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
-<script src="http://192.168.1.102:4000/socket.io/socket.io.js"></script>
-<script>
-	var socket = io.connect('/', {
-		port : 4000
-	});
-	var playlist_slug = "{{playlist.slug}}";
-
-	socket.on('connect', function() {
-		$('#connection-status').html("<em>Connected<em>");
-		console.log("connected");
-		socket.emit('playlist', playlist_slug);
-		socket.emit('new-user', '{{user}}');
-	});
-
-	socket.on('refresh', function(message) {
-		refreshPlaylist("{{playlist.id}}");
-	});
-	
-	socket.on('users-list', function(list) {
-		var user_list = "";
-		for (var key in list) {
-			   var obj = list[key];
-			   user_list = user_list + "<a href='#'> " + obj +"</a>,";
-			}
-		$("#current-listeners").html(user_list.slice(0, -1));
-	});
-	
-	socket.on('rcv_command', function(func, param) {
-		//Create the function
-		var fn = window[func];
-		 
-		//Call the function
-		fn(param);
-	});
-	
-	socket.on('jukebox-list', function(message) {
-		var options = $("#jukebox-select");
-		for (var key in message) {
-		    options.append($("<option />").val(key).text(key));
-		};
-	});
-
-	$(document).ready(function() {
-
-		var entry_el = $('#ping');
-		//console.log(entry_el);
-		socket.emit('get_jukeboxes', playlist_slug);
-
-		entry_el.click(function() {
-			//When enter is pressed send input value to node server
-			//var recver = "tab2";
-			//console.log("msg envoye");
-			if (playlist_slug) {
-				socket.emit('send_command', playlist_slug, $("#jukebox-select").val(), "loadVideo", "LTs7djCH5yE");
-			}
-		});
-	});
+<script src="http://localhost:4000/socket.io/socket.io.js"></script>
+<script type="text/javascript">
+var playlist_slug = "{{playlist.slug}}";
+var playlist_id = "{{playlist.id}}";
+var user = "{{user}}";
 </script>
+<script src="/static/seven/js/juketube_shared.js" type="text/javascript"></script>
 {% endif %}
 {% endblock %}

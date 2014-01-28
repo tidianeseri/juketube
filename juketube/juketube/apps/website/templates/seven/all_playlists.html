@@ -23,13 +23,13 @@
 				{% for list in playlists %}
 					<li>
 						<figure>
-							<a href="{% url 'shared_playlist' list.slug%}"><img src="//i1.ytimg.com/vi/{{list.medias.all.0.media_id}}/mqdefault.jpg"></a>
+							<a href="{% url 'shared_playlist' list.slug%}"><img src="//i1.ytimg.com/vi/{{list.medias.all.0.media_id}}/mqdefault.jpg">
 							<div class="playlist-info"><p>{{list}}<p> {{list.medias.count}} Medias</div>
 							<div class="caption">
 								<div>by {{list.creator}}</div>
 								<span>{{list.medias.all.0}}</span>, 
 								<span>{{list.medias.all.1}}</span>
-							</div>
+							</div></a>
 						</figure>
 					</li>
 				{% endfor %}

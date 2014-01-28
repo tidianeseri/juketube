@@ -20,7 +20,7 @@ Currently listening: <span id="current-listeners"></span>
 <!-- <button class="btn" id="ping">Ping</button> -->
 </div>
 <div class="row">
-	<div class="col-md-3">
+	<!-- <div class="col-md-3">
 		<div class="widget-container fluid-height list green">
 			<div class="heading">
 				<i class="glyphicon glyphicon-list"></i>Search Results
@@ -30,24 +30,24 @@ Currently listening: <span id="current-listeners"></span>
 				</table>
 			</div>
 		</div>
-	</div>
+	</div> -->
 
 	<div class="col-md-6">
 		<div class="widget-container fluid-height list green">
 			<div class="heading">
-				<span class="glyphicon glyphicon-facetime-video"></span>Video <span
-					class="glyphicon glyphicon-step-forward pull-right"></span> <span
-					class="glyphicon glyphicon-play pull-right"></span> <span
-					class="glyphicon glyphicon-stop pull-right"></span> 
+				<span class="glyphicon glyphicon-facetime-video"></span>Video 
+					<a href='javascript:playNext()'><span class="glyphicon glyphicon-step-forward pull-right"></span></a>
+					<a href='javascript:play()'><span class="glyphicon glyphicon-play pull-right"></span></a>
+					<a href='javascript:stop()'><span class="glyphicon glyphicon-stop pull-right"></span></a> 
 					<span class="glyphicon glyphicon-step-backward pull-right"></span>
-					<a class="pull-right" href="{% url 'remote_shared_list' playlist.slug%}">Remote Controller</a>
+					<a class="pull-right" href="{% url 'remote_shared_list' playlist.slug%}">Mode Remote Controller</a>
 			</div>
 			<div class="widget-content padded">
 				<script type="text/javascript" src="/static/js/swfobject.js"></script>
 				<div id="ytapiplayer">You need Flash player 8+ and JavaScript
 					enabled to view this video.</div>
 			</div>
-			<div class="widget-content padded">
+			<div class="widget-content padded playlist-overflow">
 				<table class="table table-filters table-list table-playlist"
 					id="playlist-table">
 					{% for media in playlist.playlistmedia_set.all %}
@@ -69,14 +69,23 @@ Currently listening: <span id="current-listeners"></span>
 		</div>
 	</div>
 
-	<div class="col-md-3">
+	<div class="col-md-6">
+		<div class="widget-container fluid-height list green" id="search-div">
+			<div class="heading">
+				<i class="glyphicon glyphicon-list"></i>Search Results
+			</div>
+			<div class="widget-content padded">
+				<table class="table table-filters table-list" id="results-table">
+				</table>
+			</div>
+		</div>
 		<div class="widget-container fluid-height list">
 			<div class="heading">
 				<i class="glyphicon glyphicon-time"></i>Next Video
 			</div>
 			<div class="widget-content padded" id="next-video">
-				<div class="next-video-img">
-					<a href="#"><img src="http://i.ytimg.com/vi/{{ playlist.medias.all.0.media_id }}/hqdefault.jpg" alt="Next Video" width="100%"></a>
+				<div class="next-video-img text-center">
+					<a href='javascript:loadVideo("{{ playlist.medias.all.0.media_id }}");'><img src="http://i.ytimg.com/vi/{{ playlist.medias.all.0.media_id }}/hqdefault.jpg" alt="Next Video"></a>
 				</div>
 				<div class="next-video-infos">
 					<a href="#"><strong>{{ playlist.medias.all.0 }}</strong></a>
@@ -84,6 +93,7 @@ Currently listening: <span id="current-listeners"></span>
 				</div>
 			</div>
 
+			<div class="playlist-overflow">
 			<table class="table table-filters table-list" id="playlist-table2">
 			{% for media in playlist.playlistmedia_set.all %}
 				<tr id="{{ media.media.media_id }}">
@@ -99,6 +109,7 @@ Currently listening: <span id="current-listeners"></span>
 				</tr>
 			{% endfor %}
 			</table>
+			</div>
 		</div>
 	</div>
 </div>
@@ -168,54 +179,13 @@ Currently listening: <span id="current-listeners"></span>
 {% block headjs %}
 {% if playlist.editable %}
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
-<script src="http://192.168.1.102:4000/socket.io/socket.io.js"></script>
-<script>
-	var socket = io.connect('/', {port : 4000});
-	var playlist_slug = "{{playlist.slug}}";
-
-	socket.on('connect', function() {
-		$('#connection-status').html("<em>Connected<em>");
-		console.log("connected");
-		socket.emit('playlist', playlist_slug);
-		socket.emit('new-user', '{{user}}');
-	});
-
-	socket.on('refresh', function(message) {
-		refreshPlaylist("{{playlist.id}}");
-	});
-	
-	socket.on('users-list', function(list) {
-		var user_list = "";
-		for (var key in list) {
-			   var obj = list[key];
-			   user_list = user_list + "<a href='#'> " + obj +"</a>,";
-			}
-		$("#current-listeners").html(user_list.slice(0, -1));
-	});
-	
-	socket.on('rcv_command', function(func, param) {
-		//Create the function
-		var fn = window[func];
-		 
-		//Call the function
-		fn(param);
-	});
-
-	$(document).ready(function() {
-
-		var entry_el = $('#ping');
-		//console.log(entry_el);
-
-		entry_el.click(function() {
-			//When enter is pressed send input value to node server
-			var msg = "{{playlist.slug}}";
-			var recver = "tab2";
-			//console.log("msg envoye");
-			if (msg) {
-				socket.emit('send_command', playlist_slug, recver, "loadVideo", "LTs7djCH5yE");
-			}
-		});
-	});
+<script src="http://localhost:4000/socket.io/socket.io.js"></script>
+<script type="text/javascript">
+var playlist_slug = "{{playlist.slug}}";
+var playlist_id = "{{playlist.id}}";
+var user = "{{user}}";
+</script>
+<script src="/static/seven/js/juketube_shared.js" type="text/javascript">
 </script>
 {% endif %}
 {% endblock %}

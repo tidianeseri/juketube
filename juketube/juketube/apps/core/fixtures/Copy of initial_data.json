@@ -1,149 +1,243 @@
-[
-  {
-    "model": "core.Genre",
+[{
     "pk": 1,
+    "model": "core.genre",
     "fields": {
-      "name": "Music"
+        "rght": 44,
+        "name": "Music",
+        "parent": null,
+        "level": 0,
+        "lft": 1,
+        "tree_id": 1
     }
-  },
-  {
-    "model": "core.Genre",
+}, {
+    "pk": 2,
+    "model": "core.genre",
     "fields": {
-      "name": "Avant-Garde",
-      "parent": 1
+        "rght": 3,
+        "name": "Avant-Garde",
+        "parent": 1,
+        "level": 1,
+        "lft": 2,
+        "tree_id": 1
     }
-  },
-  {
-    "model": "core.Genre",
+}, {
+    "pk": 3,
+    "model": "core.genre",
     "fields": {
-      "name": "Blues",
-      "parent": 1
+        "rght": 5,
+        "name": "Blues",
+        "parent": 1,
+        "level": 1,
+        "lft": 4,
+        "tree_id": 1
     }
-  },
-  {
-    "model": "core.Genre",
+}, {
+    "pk": 4,
+    "model": "core.genre",
     "fields": {
-      "name": "Classical",
-      "parent": 1
+        "rght": 7,
+        "name": "Classical",
+        "parent": 1,
+        "level": 1,
+        "lft": 6,
+        "tree_id": 1
     }
-  },
-  {
-    "model": "core.Genre",
+}, {
+    "pk": 5,
+    "model": "core.genre",
     "fields": {
-      "name": "Country",
-      "parent": 1
+        "rght": 9,
+        "name": "Country",
+        "parent": 1,
+        "level": 1,
+        "lft": 8,
+        "tree_id": 1
     }
-  },
-  {
-    "model": "core.Genre",
+}, {
+    "pk": 6,
+    "model": "core.genre",
     "fields": {
-      "name": "Easy Listening",
-      "parent": 1
+        "rght": 11,
+        "name": "Easy Listening",
+        "parent": 1,
+        "level": 1,
+        "lft": 10,
+        "tree_id": 1
     }
-  },
-  {
-    "model": "core.Genre",
+}, {
+    "pk": 7,
+    "model": "core.genre",
     "fields": {
-      "name": "Electronic",
-      "parent": 1
+        "rght": 13,
+        "name": "Electronic",
+        "parent": 1,
+        "level": 1,
+        "lft": 12,
+        "tree_id": 1
     }
-  },
-  {
-    "model": "core.Genre",
+}, {
+    "pk": 8,
+    "model": "core.genre",
     "fields": {
-      "name": "Folk",
-      "parent": 1
+        "rght": 15,
+        "name": "Folk",
+        "parent": 1,
+        "level": 1,
+        "lft": 14,
+        "tree_id": 1
     }
-  },
-  {
-    "model": "core.Genre",
+}, {
+    "pk": 9,
+    "model": "core.genre",
     "fields": {
-      "name": "Holiday",
-      "parent": 1
+        "rght": 17,
+        "name": "Holiday",
+        "parent": 1,
+        "level": 1,
+        "lft": 16,
+        "tree_id": 1
     }
-  },
-  {
-    "model": "core.Genre",
+}, {
+    "pk": 10,
+    "model": "core.genre",
     "fields": {
-      "name": "Jazz",
-      "parent": 1
+        "rght": 19,
+        "name": "Jazz",
+        "parent": 1,
+        "level": 1,
+        "lft": 18,
+        "tree_id": 1
     }
-  },
-  {
-    "model": "core.Genre",
+}, {
+    "pk": 11,
+    "model": "core.genre",
     "fields": {
-      "name": "Latin",
-      "parent": 1
+        "rght": 21,
+        "name": "Latin",
+        "parent": 1,
+        "level": 1,
+        "lft": 20,
+        "tree_id": 1
     }
-  },
-  {
-    "model": "core.Genre",
+}, {
+    "pk": 12,
+    "model": "core.genre",
     "fields": {
-      "name": "New Age",
-      "parent": 1
+        "rght": 23,
+        "name": "New Age",
+        "parent": 1,
+        "level": 1,
+        "lft": 22,
+        "tree_id": 1
     }
-  },
-  {
-    "model": "core.Genre",
+}, {
+    "pk": 13,
+    "model": "core.genre",
     "fields": {
-      "name": "Pop",
-      "parent": 1
+        "rght": 25,
+        "name": "Pop",
+        "parent": 1,
+        "level": 1,
+        "lft": 24,
+        "tree_id": 1
     }
-  },
-  {
-    "model": "core.Genre",
+}, {
+    "pk": 14,
+    "model": "core.genre",
     "fields": {
-      "name": "R&B",
-      "parent": 1
+        "rght": 27,
+        "name": "R&B",
+        "parent": 1,
+        "level": 1,
+        "lft": 26,
+        "tree_id": 1
     }
-  },
-  {
-    "model": "core.Genre",
+}, {
+    "pk": 15,
+    "model": "core.genre",
     "fields": {
-      "name": "Rap",
-      "parent": 1
+        "rght": 29,
+        "name": "Rap",
+        "parent": 1,
+        "level": 1,
+        "lft": 28,
+        "tree_id": 1
     }
-  },
-  {
-    "model": "core.Genre",
+}, {
+    "pk": 16,
+    "model": "core.genre",
     "fields": {
-      "name": "Reggae",
-      "parent": 1
+        "rght": 31,
+        "name": "Reggae",
+        "parent": 1,
+        "level": 1,
+        "lft": 30,
+        "tree_id": 1
     }
-  },
-  {
-    "model": "core.Genre",
+}, {
+    "pk": 17,
+    "model": "core.genre",
     "fields": {
-      "name": "Religious",
-      "parent": 1
+        "rght": 33,
+        "name": "Religious",
+        "parent": 1,
+        "level": 1,
+        "lft": 32,
+        "tree_id": 1
     }
-  },
-  {
-    "model": "core.Genre",
+}, {
+    "pk": 18,
+    "model": "core.genre",
     "fields": {
-      "name": "Rock",
-      "parent": 1
+        "rght": 35,
+        "name": "Rock",
+        "parent": 1,
+        "level": 1,
+        "lft": 34,
+        "tree_id": 1
     }
-  },
-  {
-    "model": "core.Genre",
+}, {
+    "pk": 19,
+    "model": "core.genre",
     "fields": {
-      "name": "Soundtrack",
-      "parent": 1
+        "rght": 37,
+        "name": "Soundtrack",
+        "parent": 1,
+        "level": 1,
+        "lft": 36,
+        "tree_id": 1
     }
-  },
-  {
-    "model": "core.Genre",
+}, {
+    "pk": 22,
+    "model": "core.genre",
     "fields": {
-      "name": "Vocal",
-      "parent": 1
+        "rght": 39,
+        "name": "Various",
+        "parent": 1,
+        "level": 1,
+        "lft": 38,
+        "tree_id": 1
     }
-  },
-  {
-    "model": "core.Genre",
+}, {
+    "pk": 20,
+    "model": "core.genre",
     "fields": {
-      "name": "World Music",
-      "parent": 1
+        "rght": 41,
+        "name": "Vocal",
+        "parent": 1,
+        "level": 1,
+        "lft": 40,
+        "tree_id": 1
     }
-  },
-]
+}, {
+    "pk": 21,
+    "model": "core.genre",
+    "fields": {
+        "rght": 43,
+        "name": "World Music",
+        "parent": 1,
+        "level": 1,
+        "lft": 42,
+        "tree_id": 1
+    }
+}]

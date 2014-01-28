@@ -1,3 +1,5 @@
+/*logo font: http://marketplace.veer.com/font/Raceway-JBT0001067 */
+
 body {
 	background: rgba(220, 231, 243, 1);
 }
@@ -67,6 +69,10 @@ iframe {
 	margin: 0;
 }
 
+#search-div {
+	display: none;
+}
+
 /*Tableau de playlist */
 .table-list.table-playlist td.thumbvideo {
 	width: 10%;
@@ -81,6 +87,25 @@ iframe {
 
 .table-list.table-playlist tr.active td .arrow-left{
 	margin-top: 20%;
+}
+
+td.track-time {
+	max-width: 70px;
+}
+
+.playlist-overflow {
+	max-height: 500px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+.next-video-img {
+	max-height: 250px;
+}
+
+.next-video-img img {
+	max-height: 100%;
+	max-width: 100%;
 }
 
 /* Remote Controls */
