@@ -1,0 +1,85 @@
+{% load i18n %}
+<html>
+  
+	<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+      {% block title %}JukeTube{% endblock %}
+    </title>
+	<!-- Bootstrap -->
+    <link href="/static/bootstrap-3.2.0/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom style-->
+    <link href="/static/juketube/css/style.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+	{% block headjs %}{% endblock %}
+
+	</head>
+    <body>
+
+    <div class="blog-masthead">
+      <div class="container">
+        <nav class="blog-nav">
+          <a class="blog-nav-item active" href="#">Home</a>
+          <a class="blog-nav-item" href="#">Playlists</a>
+          <a class="blog-nav-item" href="#">Discover</a>
+          <span class="search-input">
+            <span class="glyphicon glyphicon-search"></span>
+            <input class="search-box" type="text" placeholder="Search..." value="" id="searchBox">
+          </span>
+          <a class="blog-nav-item pull-right" href="#">Login</a>
+        </nav>
+      </div>
+    </div>
+
+  <div class="main">
+    <div class="controllers">
+      <div class="container">
+        <div class="controls col-md-3">
+            <span class="glyphicon glyphicon-fullscreen"></span>
+            <span class="glyphicon glyphicon-fast-backward"></span>
+            <span class="glyphicon glyphicon-play"></span>
+            <span class="glyphicon glyphicon-fast-forward"></span>
+        </div>
+        <div class="info col-md-4">
+          <div class="">
+            <div class="row ">
+              <div class="media-img  pull-left  col-md-2 ">
+                <img src="http://img.youtube.com/vi/ZYorWVrr63E/0.jpg" alt="About" height="50"> 
+              </div>
+              <div class="media-body   col-sm-7 col-md-10  ">
+                <h4 class="media-heading"> Ghost Dog</h4>
+                <div class="player-time"><span></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      <!-- End Navigation -->
+        
+     {% block content %} {% endblock %}
+    
+ <footer class="">
+    Copyright 2014 SmallAxe Tous droits Reserves
+  </footer>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
+    <!-- Scripts -->
+    <script src="/static/juketube/js/juketube.js"></script>
+    <script src="/static/juketube/js/jquery.nicescroll.js"></script>
+    {% block pagejs %} {% endblock %}
+  </body>
+</html>    

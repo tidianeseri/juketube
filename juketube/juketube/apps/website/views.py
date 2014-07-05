@@ -16,7 +16,7 @@ def index(request):
         home page view
     """
     
-    t = loader.get_template('seven/index.html')
+    t = loader.get_template('juketube/index.html')
     c = RequestContext(request, {})
     return HttpResponse(t.render(c))
 

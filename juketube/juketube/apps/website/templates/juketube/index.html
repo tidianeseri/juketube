@@ -1,0 +1,148 @@
+{% extends "juketube/base.html" %} 
+{% load i18n %} 
+{% block pagetitle %}JukeTube{% endblock %} 
+
+{% block content %}
+<div class="wrapper">
+	<div class="dot-mask"></div>
+	<div class="container">
+		<div class="col-md-8">
+			<div class="" id="youtube-player">
+				<iframe id="ytPlayer" frameborder="0" allowfullscreen="1"
+					title="YouTube video player" width="100%" height="100%"
+					src="https://www.youtube.com/embed/yOxFl4dna3o?controls=0&amp;autoplay=0&amp;modestbranding=1&amp;rel=0&amp;showinfo=0&amp;wmode=opaque&amp;enablejsapi=1&amp;iv_load_policy=3&amp;origin=http%3A%2F%2Fbop.fm"></iframe>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="media" id="next-song">
+				<div class="row ">
+					<div class="media-img  pull-left  col-sm-5  col-md-4 ">
+						<div class="img-overlay ">
+							<a
+								class="btn  btn-primary  animated fadeInUp glyphicon glyphicon-play"
+								href="#" rel="bookmark"></a>
+						</div>
+						<img src="http://img.youtube.com/vi/yOxFl4dna3o/0.jpg" alt="About"
+							width="150" height="150">
+					</div>
+					<div class="media-body   col-sm-7 col-md-8  ">
+						<h4 class="media-heading">
+							<a href="/about/">Ghost Dog</a>
+						</h4>
+						<p class="hidden-sm">The Way of the Samurai</p>
+					</div>
+				</div>
+			</div>
+
+			<div id="playlist">
+				<h1>Playlist</h1>
+
+				<div id="table-playlist">
+					<div class="media">
+						<div class="row ">
+							<div class="media-img  pull-left  col-md-2 ">
+								<img src="http://img.youtube.com/vi/ZYorWVrr63E/0.jpg"
+									alt="About" width="90" height="90">
+							</div>
+							<div class="media-body   col-sm-7 col-md-10  ">
+								<h4 class="media-heading">
+									<a href="/about/">Ghost Dog</a>
+								</h4>
+								<p class="hidden-sm">The Way of the Samurai</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="media">
+						<div class="row ">
+							<div class="media-img  pull-left  col-md-2 ">
+								<img src="http://img.youtube.com/vi/ZYorWVrr63E/0.jpg"
+									alt="About" width="90" height="90">
+							</div>
+							<div class="media-body   col-sm-7 col-md-10  ">
+								<h4 class="media-heading">
+									<a href="/about/">Ghost Dog</a>
+								</h4>
+								<p class="hidden-sm">The Way of the Samurai</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="media">
+						<div class="row ">
+							<div class="media-img  pull-left  col-md-2 ">
+								<img src="http://img.youtube.com/vi/ZYorWVrr63E/0.jpg"
+									alt="About" width="90" height="90">
+							</div>
+							<div class="media-body   col-sm-7 col-md-10  ">
+								<h4 class="media-heading">
+									<a href="/about/">Ghost Dog</a>
+								</h4>
+								<p class="hidden-sm">The Way of the Samurai</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+</div>
+
+</div>
+
+<div id="song-info">
+	<div class="container">
+		<h1>Song Info</h1>
+		<div class="col-md-4">
+			<h4>More Informations</h4>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+				Aenean ut sapien et nibh auctor consequat quis id nulla. Curabitur
+				sollicitudin tristique nunc, ornare pharetra magna mattis ac.
+				Aliquam tortor nibh, pretium sit amet congue accumsan, suscipit vel
+				velit. Duis sed urna eget mi rutrum dapibus. Mauris ut augue sed
+				risus semper elementum ut sed justo.
+		</div>
+		<div class="col-md-8">
+			<h4>Lyrics</h4>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+				Aenean ut sapien et nibh auctor consequat quis id nulla. Curabitur
+				sollicitudin tristique nunc, ornare pharetra magna mattis ac.
+				Aliquam tortor nibh, pretium sit amet congue accumsan, suscipit vel
+				velit. Duis sed urna eget mi rutrum dapibus. Mauris ut augue sed
+				risus semper elementum ut sed justo.
+		</div>
+	</div>
+</div>
+
+<div id="recommendations">
+	<div class="container">
+		<h1>Hot Playlists</h1>
+
+		<div class="col-md-4">
+			<div class="media">
+				<div class="row ">
+					<div class="media-img  pull-left  col-sm-5  col-md-4 ">
+						<div class="img-overlay ">
+							<a
+								class="btn  btn-primary  animated fadeInUp glyphicon glyphicon-play"
+								href="#" rel="bookmark"></a>
+						</div>
+						<img src="http://img.youtube.com/vi/yOxFl4dna3o/0.jpg" alt="About"
+							width="150" height="150">
+					</div>
+					<div class="media-body   col-sm-7 col-md-8  ">
+						<h4 class="media-heading">
+							<a href="/about/">Ghost Dog</a>
+						</h4>
+						<p class="hidden-sm">The Way of the Samurai</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+{% endblock %}
