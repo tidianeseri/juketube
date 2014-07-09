@@ -32,11 +32,13 @@ def search(request):
     #response_data['message'] = 'You messed up'
     return HttpResponse(json.dumps(result), content_type="application/json")
 
+@login_required
 def updatePlaylist(request):
     
     playlist_id = request.POST.get('playlist_id', '')
     playlist = Playlist.objects.get(pk = playlist_id)
     is_listener = Playlist.objects.is_in_playlist(playlist, request.user)
+        
     
     if is_listener == True:    
         idmedia = request.POST.get('idmedia', '')
@@ -78,8 +80,10 @@ def updatePlaylist(request):
             the_media = None
             try:
                 #print "dans rem"
+                pos = request.POST.get('position', '')
+                #print "%s:%s:%s"%(idmedia, pos, action)
                 the_media = Media.objects.get(id = idmedia)
-                playlist_media = PlaylistMedia.objects.get(playlist = playlist, media = the_media, position = title)
+                playlist_media = PlaylistMedia.objects.get(playlist = playlist, media = the_media, position = pos)
                 playlist_media.delete()
             except AttributeError:
                 traceback.print_exc()
@@ -119,7 +123,7 @@ def getUpdatedPlaylist(request):
 def shared_list(request, playlist_slug):
     
     playlist = Playlist.objects.get(slug = playlist_slug)
-    t = loader.get_template('seven/shared.html')
+    t = loader.get_template('juketube/shared.html')
     c = RequestContext(request, {'playlist':playlist, 'is_listener':Playlist.objects.is_in_playlist(playlist, request.user)})
     return HttpResponse(t.render(c))
 
@@ -168,7 +172,7 @@ def shared_create(request):
     else:
         form = PlaylistForm()
     
-    return render_to_response('seven/create_playlist.html', {
+    return render_to_response('juketube/create_playlist.html', {
         'form': form, 'genres':Genre.objects.all()}, csrfContext)
 
 @login_required
@@ -204,7 +208,7 @@ def node_api(request):
         return HttpResponseServerError(str(e))    
     
 def my_playlists(request):
-    t = loader.get_template('seven/my_playlists.html')
+    t = loader.get_template('juketube/my_playlists.html')
     c = RequestContext(request, {'playlists':Playlist.objects.playlists_of(request.user)})
     return HttpResponse(t.render(c))
 

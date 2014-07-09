@@ -50,10 +50,8 @@ textarea, input[type="text"], input[type="password"], input[type="datetime"], in
   -webkit-backface-visibility: hidden;
 }
 
-.blog-masthead {
-  background-color: #428bca;
-  -webkit-box-shadow: inset 0 -2px 5px rgba(0,0,0,.1);
-          box-shadow: inset 0 -2px 5px rgba(0,0,0,.1);
+.loadVideo, .cueVideo {
+	cursor: pointer;
 }
 
 /*
@@ -115,6 +113,46 @@ span.glyphicon.glyphicon-search {
   z-index: 2;
 }
 
+.search-input .search-results {
+  display: none;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  z-index: 2;
+  max-height: 500px;
+  overflow: hidden;
+  overflow-y: scroll;
+  border-radius: 5px;
+}
+
+.search-results .result {
+  padding: 3px;
+  border-bottom: thin solid grey;
+}
+
+.search-results .result:hover {
+	background-color: #dce5f1;
+}
+
+.search-results .result .img-thumb{
+  padding: 0;
+}
+
+.search-results .glyphicon-plus.cueVideo {
+	margin-top: 5px;
+	color: #428bca;
+}
+
+#slug-name {
+	color: white;
+	margin-left: 30px;
+}
+#slug-name h2 {
+	display: inline;
+	margin-left: 20px;
+}
+
 footer {
   width: 100%;
   background-color: #428bca;
@@ -134,20 +172,25 @@ footer {
 }
 
 .controllers .controls{
-  color: #cdddeb;
+  color: white;
   font-size: 20px;
   margin-top: 10px;
+}
+
+.controllers .controls .glyphicon:hover{
+	color: #cdddeb;
 }
 
 .controllers .controls .glyphicon-fullscreen {
   margin-right: 20px;
   font-size: 15px;
 }
-.controllers .controls .glyphicon-play {
+.controllers .controls .glyphicon-play, .controllers .controls .glyphicon-pause {
   font-size: 35px;
 }
 .controllers .controls .glyphicon {
   vertical-align: middle;
+  cursor: pointer;
 }
 
 .controllers .info .media-body {
@@ -160,10 +203,11 @@ footer {
   background: #fff;
   box-shadow: 0 1px 1px 0 rgba(255,255,255,0.08);
   margin-top: 10px;
+  cursor: pointer;
 }
 
 .controllers .player-time span{
-  width: 82.106171%;
+  width: 0%;
   height: 5px;
   position: absolute;
   left: 0;
@@ -174,10 +218,16 @@ footer {
 }
 /* body */
 .main {
-  background-image: url(http://img.youtube.com/vi/jgh10of6DKA/1.jpg);
-  background-size: contain;
-  padding: 0px 0;
+	background-image: url(http://img.youtube.com/vi/jgh10of6DKA/1.jpg);
+	background-size: contain;
+	padding: 0px 0;
+	-webkit-transition: background-image 0.2s ease-in-out;
+	-moz-transition: background-image 0.2s ease-in-out;
+	-ms-transition: background-image 0.2s ease-in-out;
+	-o-transition: background-image 0.2s ease-in-out;
+	transition: background-image 0.2s ease-in-out;
 }
+
 .wrapper {
   position: relative;
   width: 100%;
@@ -239,7 +289,7 @@ background-size: 5px;
 .media .img-overlay a {
   display: none;
   position: relative;
-  margin-top: -50px;
+  margin-top: -30px;
 }
 
 .media:hover .img-overlay a,
@@ -330,11 +380,16 @@ background-size: 5px;
 #playlist {
   padding: 10px;
   background-color: rgba(255, 255, 255, 0.39);
+  position: relative;
 }
 
 #playlist h1{
   font-size: 25px;
   color: white;
+}
+
+#playlist h4 {
+	font-size: 16px;
 }
 
 #playlist .media-body {
@@ -344,6 +399,25 @@ background-size: 5px;
 
 #playlist .media p {
   margin: 0;
+}
+
+#playlist .glyphicon-remove {
+	margin-top: 15px;
+	color: rgb(252, 63, 63);
+	cursor: pointer;
+}
+
+#playlist .current_track {
+	background-color: rgb(69, 69, 69);
+}
+
+#playlist span#clear-playlist {
+	position: absolute;
+	top: 0;
+	right: 10;
+	padding: 0 5px;
+	font-size: 18px;
+	cursor: pointer;
 }
 
 /* Song Info */
@@ -375,7 +449,65 @@ background-size: 5px;
   color: white;
 }
 
+/* LOGIN PAGE */
+.stripped {
+	background: url('http://artas1.com/info/ryohei_yamashita/large/white_room.png');
+	background: url('http://artas1.com/info/ryohei_yamashita/large/vol3/Dancing_analogue.jpg');
+	background-color: #dce5f1;
+	min-height: 85vh;
+	background-size: cover;
+	background-position: center;
+}
 
+.stripped.bg2 {
+	background: url('http://artas1.com/info/ryohei_yamashita/large/vol3/honey_G.jpg');
+	background-size: cover;
+}
+
+/*FORM*/
+input[type=checkbox].form-control, input[type=radio].form-control {
+	height: 20px;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	margin-top: 5px;
+}
+
+/*My Playlist page */
+.gallery-container {
+	width: 100%;
+	background-color: rgba(255, 255, 255, 0.72);
+	border-radius: 5px;
+	min-height: 60vh;
+}
+.gallery-item .elem{
+	position: relative;
+	margin-bottom: 10px;
+	margin-top: 10px;
+	overflow: hidden;
+}
+.gallery-item .actions {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 255, 0.23);
+	padding: 10px;
+}
+.gallery-item .actions:hover {
+	background-color: rgba(66, 139, 202, 0.9);
+}
+
+a.gallery-item{
+	color: white;
+}
+
+.gallery-item img{
+	width: 100%;
+}
+
+.gallery-item ul{
+	list-style: none;
+	padding-left: 15px;
+}
 
 /* INSPIS */
 /*

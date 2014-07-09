@@ -1,6 +1,8 @@
 {% extends "juketube/base.html" %} 
 {% load i18n %} 
-{% block pagetitle %}JukeTube{% endblock %} 
+{% block pagetitle %}JukeTube{% endblock %}
+{% block slug %} Slug: <h2> {{playlist.slug}} </h2>{% endblock %}
+{% block playlistname %} {{playlist}} {% endblock %}
 
 {% block content %}
 <div class="wrapper">
@@ -14,21 +16,21 @@
 		</div>
 		<div class="col-md-4">
 			<div class="media" id="next-song">
-				<div class="row video-element loadVideo" yt-id="yOxFl4dna3o">
+				<div class="row video-element loadVideo" yt-id="{{ playlist.medias.all.0.media_id }}"">
 					<div class="media-img  pull-left  col-sm-2  col-md-4">
 						<div class="img-overlay ">
 							<a
 								class="btn  btn-primary  animated fadeInUp glyphicon glyphicon-play"
 								href="#" rel="bookmark"></a>
 						</div>
-						<img src="http://img.youtube.com/vi/yOxFl4dna3o/0.jpg" alt="About"
+						<img src="http://img.youtube.com/vi/{{ playlist.medias.all.0.media_id }}/0.jpg" alt="About"
 							width="150" height="150">
 					</div>
 					<div class="media-body   col-sm-10 col-md-8 loadVideo ">
 						<h4 class="media-heading">
 							<a href="#">Next Song</a>
 						</h4>
-						<p class="">Simply Beatiful</p>
+						<p class="">{{ playlist.medias.all.0 }}</p>
 					</div>
 				</div>
 			</div>
@@ -37,7 +39,31 @@
 				<h1>Playlist</h1>
 				<span id="clear-playlist" title="Clear Playlist"><span class="glyphicon glyphicon-remove"></span></span>
 
-				<div id="table-playlist"></div>
+				<div id="table-playlist">
+				
+				{% for media in playlist.playlistmedia_set.all %}
+					<div class="media">
+						<div class="row video-element" yt-id="{{ media.media.media_id }}"
+							yt-title="{{ media.media.name }}" yt-duration="undefined" jkt-id="{{  media.media.id }}" jkt-pos="{{  media.position }}">
+							<div class="media-img  pull-left  col-sm-2 col-md-2 loadVideo ">
+								<img src="http://img.youtube.com/vi/{{ media.media.media_id }}/0.jpg"
+									alt="About" width="90" height="90">
+							</div>
+							<div class="media-body col-sm-8 col-md-8 loadVideo">
+								<h4 class="media-heading">
+									<a href="#">{{ media.media.name }}</a>
+								</h4>
+							</div>
+							{% if is_listener %}
+							<div class="col-md-2">
+								<span class="glyphicon glyphicon-remove remVideo"></span>
+							</div>
+							{% endif %}
+						</div>
+					</div>
+					{% endfor %}
+ 				
+				</div>
 
 			</div>
 
@@ -65,6 +91,11 @@
 		</div>
 	</div>
 </div>
+{% if user.is_authenticated %}
+<input type="hidden" id="idmedia" name="idmedia">
+<input type="hidden" id="is_auth" name="is_auth">
+<input type="hidden" id="playlist_id" name="playlist_id" value="{{playlist.id}}">
+{% endif %}
 
 {% endblock %}
 
@@ -95,26 +126,18 @@
           }
 	  });
 	}
-	
-	function loadVideoPage() {
-		data = new Object();
-		data.id = "T0BlXy3Roj4";
-		data.title = "Method Man - Bring The Pain";
-		tr1 = new MediaYoutube(data);
-		data.id = "yOxFl4dna3o";
-		data.title = "Al Green - Simply Beautiful";
-		tr2 = new MediaYoutube(data);
-		data.id = "QYN7wFk2zYw";
-		data.title = "The Rza - Samurai showdown";
-		tr3 = new MediaYoutube(data);
-		data.id = "O1OTWCd40bc";
-		data.title = "The Weeknd - Wicked Games";
-		tr4 = new MediaYoutube(data);
-
-		YT_PLAYLIST.add(tr1);
-		YT_PLAYLIST.add(tr2);
-		YT_PLAYLIST.add(tr3);
-		YT_PLAYLIST.add(tr4);
-	}
+	  function loadVideoPage() {
+		  data = new Object();
+		  {% for media in playlist.playlistmedia_set.all %}
+			data.id = "{{ media.media.media_id }}";
+			data.title = "{{ media.media.name }}";
+			tr1 = new MediaYoutube(data);
+			YT_PLAYLIST.add(tr1, false);
+		  {% endfor %}
+			/*YT_PLAYLIST.add(tr1);
+			YT_PLAYLIST.add(tr2);
+			YT_PLAYLIST.add(tr3);
+			YT_PLAYLIST.add(tr4);*/
+		}
 </script>
 {% endblock %}

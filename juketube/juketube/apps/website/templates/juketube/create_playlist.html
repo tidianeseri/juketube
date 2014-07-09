@@ -1,0 +1,83 @@
+{% extends "juketube/base_stripped.html" %}
+{% load i18n %}
+{% load mptt_tags %}
+{% block pagetitle %}Create Playlist{% endblock %}
+{% block content %}
+<div class="wrapper stripped bg2">
+	<!-- <div class="dot-mask"></div> -->
+	<div class="container">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="widget-container fluid-height">
+                      <form action="/create/" method="post" class="form-horizontal">{% csrf_token %}
+                  <div class="heading tabs">
+                    <i class="icon-sitemap"></i>Overview  
+                    <ul class="nav nav-tabs" data-tabs="tabs" id="tabs" style="margin-bottom:25px;">
+                      <li class="active">
+                        <a data-toggle="tab" href="#tab1"><i class="icon-comments"></i><span>General</span></a>
+                      </li>
+                      <li>
+                        <a data-toggle="tab" href="#tab2"><i class="icon-user"></i><span>Genres</span></a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="tab-content padded" id="my-tab-content">
+                    <div class="tab-pane active" id="tab1">
+                    {{ form.non_field_errors }}
+                      <div class="form-group">
+			            <label class="control-label col-md-2">Name</label>
+			            <div class="col-md-7">
+			              {{ form.name.errors }}
+			              {{ form.name }}
+			            </div>
+			          </div>
+			          <div class="form-group">
+			            <label class="control-label col-md-2">Public</label>
+			            <div class="col-md-7">
+			              <label class="checkbox">{{ form.public }}<span></span></label>
+			            </div>
+			          </div>
+			          <div class="form-group">
+			            <label class="control-label col-md-2">Editable</label>
+			            <div class="col-md-7">
+			              <label class="checkbox">{{ form.editable }}<span></span></label>
+			            </div>
+			          </div>
+			          <div class="form-group">
+			            <label class="control-label col-md-2">Genre</label>
+			            <div class="col-md-7">
+			              {{ form.genre.errors }}
+			              {{ form.genre }}
+			            </div>
+			          </div>
+			          <div class="form-group">
+			            <div class="col-md-7 col-md-offset-2">
+					  	<input class="btn btn-primary" type="submit" value="Submit" />
+					  	</div>
+					  </div>
+                    </div>
+                    <div class="tab-pane" id="tab2">
+                      <h3>
+                        Profile
+                      </h3>
+                      <ul>
+					    {% recursetree genres %}
+					        <li>
+					            {{ node.name }}
+					            {% if not node.is_leaf_node %}
+					                <ul class="children">
+					                    {{ children }}
+					                </ul>
+					            {% endif %}
+					        </li>
+					    {% endrecursetree %}
+					</ul>
+                    </div>
+                  </div>
+					  </form>
+                </div>
+              </div>
+            </div>
+           </div>
+          </div>
+{% endblock %}
