@@ -1,0 +1,77 @@
+{% extends "juketube/base_stripped.html" %}
+{% load i18n %}
+{% block pagetitle %} My Playlists{% endblock %}
+{% block content %}
+<div class="wrapper stripped bg1">
+	<!-- <div class="dot-mask"></div> -->
+	<div class="container">
+<div class="row">
+	<div class="form-group">
+		<label class="control-label col-md-2">Search</label>
+		<div class="col-md-7">
+			<div class="input-group">
+				<input class="form-control" type="text"
+					placeholder="Search a playlist..."><span
+					class="input-group-btn"><button class="btn btn-default"
+						type="button">Go</button></span>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+          <!-- Gallery with filtering and actions -->
+          <div class="col-lg-12">
+            <div class="widget-container fluid-height">
+              <div class="heading">
+                <i class="icon-th-large"></i>My Playlists
+                <div class="gallery-filters list-inline btn-group pull-right">
+                  <a class="btn btn-sm btn-primary-outline selected" data-filter="*" href="#">All</a>
+                  <a class="btn btn-sm btn-primary-outline" data-filter=".{{user}}" href="#">Mine</a>
+                  <a class="btn btn-sm btn-primary-outline" data-filter=":not(.{{user}})" href="#">Other's</a>
+                </div>
+              </div>
+              
+                <div class="container">
+                {% for list in playlists %}
+                  <a class="gallery-item {{list.creator}} col-md-3" href="{% url 'shared_playlist' list.slug%}" title="{{list}}">
+                  	<div class="actions">
+                  	<h4 class="text-center">{{list}}</h4>
+                      <!-- <h3>{{list}}</h3> -->
+                      <span>{{list.medias.count}} Medias</span>
+                      <ul>
+                      	{% for media in list.medias.all|slice:":3" %}
+                      	<li>{{media}}</li>
+                      	{% empty %}
+    					Sorry, no medias in this list.
+						{% endfor %}
+                      </ul>
+                    </div>
+                  	<img src="//i1.ytimg.com/vi/{{list.medias.all.0.media_id}}/mqdefault.jpg" class="img-responsive"/>
+                  </a>
+                 {% endfor %}
+                </div>
+                
+            </div>
+          </div>
+         </div>
+      </div>
+</div>
+{% endblock %}
+
+{% block pagejs %}
+<script type="text/javascript">
+$container = $(".gallery-container");
+$container.isotope({});
+$(".gallery-filters a").click(function() {
+  var selector;
+  selector = $(this).attr("data-filter");
+  $(".gallery-filters a.selected").removeClass("selected");
+  $(this).addClass("selected");
+  $container.isotope({
+    filter: selector
+  });
+  return false;
+});
+</script>
+{% endblock %}

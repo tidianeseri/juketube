@@ -61,3 +61,24 @@ class JukeTube(object):
         
         return videos
         
+    def youtube_get_video(self, the_id):
+        """Get informations of a video"""
+        
+        youtube = build(self.YOUTUBE_API_SERVICE_NAME, self.YOUTUBE_API_VERSION,
+        developerKey=self.DEVELOPER_KEY)
+        
+        search_response = youtube.videos().list(
+                                                part="snippet",
+                                                id=the_id
+                                                ).execute()
+
+        videos = {}
+        
+        for search_result in search_response.get("items", []):
+            if search_result["id"]["kind"] == "youtube#video":
+                videos["id"] = search_result["id"]
+                videos["title"] = search_result["snippet"]["title"]
+                videos["description"] = search_result["snippet"]["description"]
+                videos["thumbnail"] = search_result["snippet"]["thumbnails"]["high"]["url"]
+        
+        return videos

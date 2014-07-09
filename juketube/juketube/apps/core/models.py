@@ -63,7 +63,7 @@ class PlaylistManager(models.Manager):
                                                           id=user1.id).exists())
 
     def join_playlist(self, playlist, user1):
-        if(not Playlist.objects.is_in_playlist(playlist, user1)):
+        if(not Playlist.objects.is_in_playlist(playlist, user1) and playlist.editable):
             Playlist.objects.get(id=playlist.id).listeners.add(
                                            Member.objects.get(id=user1.id))
     def leave_playlist(self, playlist, user1):
