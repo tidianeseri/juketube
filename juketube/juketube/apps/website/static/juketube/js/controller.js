@@ -64,6 +64,7 @@ function onYouTubePlayerReady(playerId) {
 	setVideoLoad();
 	setClear();
 	setClickBarPlaying();
+	setRefresh();
 	//setVideoCue();
 	YT_PLAYER.player.cueVideoById(YT_PLAYLIST.medias.item(0).id);
 	YT_PLAYLIST.currentTrackIndex = 0;
@@ -193,6 +194,9 @@ function Playlist() {
 	this.medias = new LinkedList();
 	//this.medias = {};
 	this.currentTrackIndex = null;
+	this.slug = null;
+	if($('#playlist-slug').length)
+		this.slug = $('#playlist-slug').html().trim();
 }
 
 Playlist.prototype.add = function(Media, autoConstruct) {
@@ -236,6 +240,14 @@ Playlist.prototype.setNext = function() {
 	$('#next-song .video-element').attr('yt-id', this.medias.item(this.currentTrackIndex+1).id);
 }
 
+function refreshPlaylist() {
+	if ($("#is_auth").length) {
+		post_object = {};
+		post_object["playlist_id"]=$("#playlist_id").val();
+		post_object["url"]="/getUpdatedPlaylist/";
+		toServer(post_object, false);
+	}		
+}
 function setVideoCue() {
 	$('.cueVideo').off("click");
 	$('.cueVideo').on("click",function() {
@@ -252,7 +264,7 @@ function setVideoCue() {
 			post_object["operation"]="add";
 			post_object["playlist_id"]=$("#playlist_id").val();
 			post_object["url"]="/updatePlaylist/";
-			toServer(post_object);
+			toServer(post_object, true);
 		}		
 		else {
 			var new_media = new MediaYoutube(data);
@@ -276,7 +288,7 @@ function setRemoveVideo() {
 			post_object["operation"]="rem";
 			post_object["playlist_id"]=$("#playlist_id").val();
 			post_object["url"]="/updatePlaylist/";
-			toServer(post_object);
+			toServer(post_object, true);
 		}		
 		else {
 			YT_PLAYLIST.remove(indexToRemove);
@@ -290,6 +302,22 @@ function setClear() {
 		YT_PLAYLIST.clear();
 		$("#table-playlist").empty();
 	})
+}
+
+function setRefresh() {
+	$('#refresh-playlist').click(function(){
+		refreshPlaylist();
+	})
+}
+/***********************************************************************/
+/*                      NodeJS Functions   						       */
+/***********************************************************************/
+function notifyListeners(slug) {
+	if(slug){
+		socket.emit('send_notification', slug, function(data){
+			//console.log(data);
+		});
+	}
 }
 
 
@@ -328,7 +356,7 @@ function csrfSafeMethod(method) {
 var csrftoken = getCookie('csrftoken');
 
 //Add/Rem To Server by AJAX
-function toServer(postData) {
+function toServer(postData, notify) {
 	var urlSubmit = postData["url"];
 	$.ajax({
 		type: "POST",
@@ -346,7 +374,7 @@ function toServer(postData) {
 			$.each( response, function(i,data) {
 				new_data = new Object();
 				new_data.id = data.fields.media.fields.media_id;
-				new_data.jkt_id = data.fields.media.fields.id;
+				new_data.jkt_id = data.fields.media.pk;
 				new_data.jkt_pos = data.fields.position;
 				new_data.title = data.fields.media.fields.name;
 				new_data.duration = data.fields.media.fields.length;
@@ -356,7 +384,10 @@ function toServer(postData) {
 			});
 			
 			//Send notification to all listeners
-			//notifyListeners(playlist.slug);
+			if( typeof notify === 'undefined' || notify == true)
+				notifyListeners(YT_PLAYLIST.slug);
+			
+			YT_PLAYLIST.setCurrent(YT_PLAYLIST.currentTrackIndex);
 		}
 	});
 return false;

@@ -29,7 +29,7 @@ io.configure(function(){
 	io.set('log level', 1);
 });
 
-//usernames which are currently connected to the chat
+//usernames which are currently connected to the playlist
 var basket = {};
 
 io.sockets.on('connection', function (socket) {
@@ -76,6 +76,7 @@ io.sockets.on('connection', function (socket) {
 	//Client is sending message through socket.io
 	socket.on('send_notification', function (playlist) {
 		socket.broadcast.to(playlist).emit('refresh', "");
+		console.log("notification received");
 	});
 	
 	//Send commands

@@ -83,6 +83,7 @@ def updatePlaylist(request):
                 pos = request.POST.get('position', '')
                 #print "%s:%s:%s"%(idmedia, pos, action)
                 the_media = Media.objects.get(id = idmedia)
+                elems = PlaylistMedia.objects.filter(playlist = playlist)
                 playlist_media = PlaylistMedia.objects.get(playlist = playlist, media = the_media, position = pos)
                 playlist_media.delete()
             except AttributeError:
@@ -110,7 +111,7 @@ def getUpdatedPlaylist(request):
     """
         get updated playlist
     """
-    playlist_id = request.GET.get('id', '')
+    playlist_id = request.POST.get('playlist_id', '')
     playlist = Playlist.objects.get(pk = playlist_id)
     
     #print request.GET
@@ -206,15 +207,16 @@ def node_api(request):
         return HttpResponse("Everything worked :)")
     except Exception, e:
         return HttpResponseServerError(str(e))    
-    
+
+@login_required    
 def my_playlists(request):
     t = loader.get_template('juketube/my_playlists.html')
     c = RequestContext(request, {'playlists':Playlist.objects.playlists_of(request.user)})
     return HttpResponse(t.render(c))
 
 def all_playlists(request):
-    t = loader.get_template('seven/all_playlists.html')
-    c = RequestContext(request, {'playlists':Playlist.objects.all()})
+    t = loader.get_template('juketube/all_playlists.html')
+    c = RequestContext(request, {'playlists':Playlist.objects.filter(public=True)})
     return HttpResponse(t.render(c))
     
 @login_required

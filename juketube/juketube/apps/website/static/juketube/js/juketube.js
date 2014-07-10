@@ -7,11 +7,11 @@ function setCueLoad() {
 
 function searchResultHTML(objVideo) {
 	var searchHTML = "<div class='result video-element' yt-id='"+objVideo.id+"' yt-title=\""+objVideo.title+"\" yt-duration='"+objVideo.duration+"'>"+
-		"<div class='col-md-2 img-thumb loadVideo'>"+
+		"<div class='col-xs-2 col-sm-2 col-md-2 img-thumb loadVideo'>"+
 			"<img class='img-responsive' src='http://img.youtube.com/vi/"+objVideo.id+"/0.jpg'>"+
 		"</div>"+
-		"<div class='col-md-8 loadVideo'>"+objVideo.title+" "+objVideo.time+"</div>"+
-		"<div class='col-md-2'><span class='glyphicon glyphicon-plus cueVideo'></span></div>"+
+		"<div class='col-xs-8 col-sm-8 col-md-8 loadVideo'>"+objVideo.title+" "+objVideo.time+"</div>"+
+		"<div class='col-xs-2 col-xs-2 col-md-2'><span class='glyphicon glyphicon-plus cueVideo'></span></div>"+
 		"<div class='clearfix'></div>"+
 	"</div>";
 	return searchHTML;
@@ -20,14 +20,14 @@ function searchResultHTML(objVideo) {
 function playlistHTML(objVideo, index) {
 	var itemHTML = "<div class='media'>" +
 		"<div class='row video-element' yt-id='"+objVideo.id+"' yt-title=\""+objVideo.title+"\" yt-duration='"+objVideo.duration+"' jkt-id='"+objVideo.jkt_id+"' jkt-pos='"+objVideo.jkt_pos+"'>"+
-			"<div class='media-img  pull-left  col-sm-2 col-md-2 loadVideo '>"+
+			"<div class='media-img  pull-left col-xs-2 col-sm-2 col-md-2 loadVideo '>"+
 				"<img src='http://img.youtube.com/vi/"+objVideo.id+"/0.jpg' alt='About' width='90' height='90'>"+
 			"</div>"+
-			"<div class='media-body col-sm-8 col-md-8 loadVideo'>"+
+			"<div class='media-body col-xs-8 col-sm-8 col-md-8 loadVideo'>"+
 				"<h4 class='media-heading'><a href='#'>"+objVideo.title+"</a></h4>"+
 				/*"<p class='hidden-sm'>"+objVideo.time+"</p>"+*/
 			"</div>"+
-			"<div class='col-md-2'><span class='glyphicon glyphicon-remove remVideo'></span></div>"+
+			"<div class='col-xs-2 col-sm-2 col-md-2'><span class='glyphicon glyphicon-remove remVideo'></span></div>"+
 		"</div>"+
 	"</div>";
 	
