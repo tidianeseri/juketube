@@ -1,16 +1,38 @@
 {% extends "juketube/base.html" %} 
 {% load i18n %} 
 {% block pagetitle %}JukeTube{% endblock %}
-{% block slug %} Slug: <h2 id="playlist-slug"> {{playlist.slug}} </h2>{% endblock %}
-{% block playlistname %} {{playlist}} {% endblock %}
+{% block slug %} <h2> </h2>
+<span class="dropdown">
+	Slug: <a id="playlist-slug" class="blog-nav-item dropdown-toggle" href="#" data-toggle="dropdown"> {{playlist.slug}}<b class="caret"></b></a>
+	<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+		<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Name: {{playlist}}</a></li>
+		<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Slug: {{playlist.slug}}</a></li>
+		{% if not is_listener %}<li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'join_playlist' playlist.id %}">Join Playlist</a></li>{% endif %}
+		{% if is_listener %}<li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'leave_playlist' playlist.id %}">Leave Playlist</a></li>{% endif %}
+		<li role="presentation"><a role="menuitem" tabindex="-1" href="#jukebox-activate"><span class="glyphicon glyphicon-music"></span> Mode JukeBox</a></li>
+	</ul>
+</span>
+
+{% endblock %}
 {% block dropdownplaylist %}
 <div class="dropdown pull-right hidden-xs hidden-md hidden-lg">
 	<a class="blog-nav-item dropdown-toggle" href="#" data-toggle="dropdown">Info Playlist  <b class="caret"></b></a>
 	<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 		<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Name: {{playlist}}</a></li>
 		<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Slug: {{playlist.slug}}</a></li>
-		{% if not is_listener %}<li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'join_playlist' playlist.id %}">Join Playlist</a></li>{% endif %} 
+		{% if not is_listener %}<li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'join_playlist' playlist.id %}">Join Playlist</a></li>{% endif %}
+		{% if is_listener %}<li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'leave_playlist' playlist.id %}">Leave Playlist</a></li>{% endif %} 
 	</ul>
+</div>
+{% endblock %}
+
+{% block playlistcontrols %}
+<div class="pull-right">
+<h4>{{playlist}}</h4>
+	{% if not is_listener %}<a class="btn btn-info" href="{% url 'join_playlist' playlist.id %}">Join Playlist</a>{% endif %}
+	{% if is_listener %}<a class="btn btn-danger" href="{% url 'leave_playlist' playlist.id %}">Leave Playlist</a>{% endif %}
+	<a class="btn btn-success" href="{% url 'remote_shared_list' playlist.slug%}">Remote Control</a>
+	<a class="btn btn-info" href="#jukebox-activate"><span class="glyphicon glyphicon-music"></span> JukeBox</a>
 </div>
 {% endblock %}
 
@@ -79,7 +101,7 @@
 			</div>
 
 		</div>
-	</div>
+	</div>$
 </div>
 
 </div>
@@ -92,6 +114,22 @@
 			<h4>Users</h4>
 			<div id="current-listeners"></div>
 			<div id="info-text"></div>
+			<hr>
+			<h3>JukeBox Mode</h3>
+			<div id="jukebox-activate" class="form-group">
+	            <label class="control-label col-md-5">Activate</label>
+	            <div class="col-md-7">
+	              <label class=""><input id="jukebox_mode" name="jukebox_mode" type="checkbox"><span></span></label>
+	            </div>
+          	</div>
+          	<div class="clearfix"></div>
+          	<div class="form-group" style="display:none;">
+	            <label class="control-label col-md-5">Jukebox Name</label>
+	            <div class="col-md-7">
+	              <input class="form-control" id="jukebox_name" name="jukebox_name" placeholder="Enter a name" type="text">
+	              <button class="btn" id="jukebox_name_ok">OK</button>
+	            </div>
+          	</div>
 		</div>
 		<div class="col-md-8">
 			<h4>Lyrics</h4>

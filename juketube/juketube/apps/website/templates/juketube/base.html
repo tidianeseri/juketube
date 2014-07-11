@@ -69,13 +69,13 @@
   <div class="main">
     <div class="controllers">
       <div class="container">
-        <div class="controls col-xs-12 col-sm-4 col-md-3">
+        <div class="text-center controls col-xs-12 col-sm-4 col-md-3">
             <span class="glyphicon glyphicon-fullscreen"></span>
             <span class="glyphicon glyphicon-fast-backward" id="control-back"></span>
             <span class="glyphicon glyphicon-play" id="control-play"></span>
             <span class="glyphicon glyphicon-fast-forward" id="control-next"></span>
         </div>
-        <div class="info col-xs-12 col-sm-8 col-md-6">
+        <div class="info col-xs-12 col-sm-8 col-md-5">
           <div class="">
             <div class="row ">
               <div class="media-img  pull-left  col-md-2 " id="current-img">
@@ -89,8 +89,8 @@
             </div>
           </div>
         </div>
-        <div class="col-sm-8 col-md-3 hidden-sm">
-        <h2 class="pull-right">{% block playlistname %}{% endblock %}</h2>
+        <div class="col-sm-8 col-md-4 hidden-sm">
+        {% block playlistcontrols %}{% endblock %}        
         </div>
       </div>
     </div>

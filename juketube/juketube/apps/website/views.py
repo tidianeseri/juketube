@@ -132,7 +132,7 @@ def shared_list(request, playlist_slug):
 def remote_shared_list(request, playlist_slug):
     
     playlist = Playlist.objects.get(slug = playlist_slug)
-    t = loader.get_template('seven/remote_controller.html')
+    t = loader.get_template('juketube/remote_controller.html')
     c = RequestContext(request, {'playlist':playlist, 'is_listener':Playlist.objects.is_in_playlist(playlist, request.user)})
     return HttpResponse(t.render(c))
 

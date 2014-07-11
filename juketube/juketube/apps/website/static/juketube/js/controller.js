@@ -58,17 +58,17 @@ function setClickBarPlaying() {
 }
 
 function onYouTubePlayerReady(playerId) {
-	YT_PLAYER = new Player();
-	YT_PLAYLIST = new Playlist();
 	loadVideoPage();
-	setVideoLoad();
-	setClear();
 	setClickBarPlaying();
-	setRefresh();
 	//setVideoCue();
 	YT_PLAYER.player.cueVideoById(YT_PLAYLIST.medias.item(0).id);
 	YT_PLAYLIST.currentTrackIndex = 0;
 }
+YT_PLAYER = new Player();
+YT_PLAYLIST = new Playlist();
+setVideoLoad();
+setClear();
+setRefresh();
 
 function onytplayerStateChange(evt) {
 	//Unstarted
@@ -106,7 +106,7 @@ function onytplayerStateChange(evt) {
 }
 
 function Player() {
-	if (ytplayer)
+	if (typeof ytplayer !== 'undefined')
 		this.player = ytplayer;
 	this.current = null;
 	this.currentPlaylistIndex = null;
@@ -148,7 +148,8 @@ Player.prototype.loadVideo = function(videoID) {
 		}
 	}
 	catch(e) {
-		
+		if(('#idremote') != undefined)
+			socket.emit('send_command', YT_PLAYLIST.slug, $("#jukebox-select").val(), "loadVideo", videoID);
 	}
 }
 
@@ -320,6 +321,22 @@ function notifyListeners(slug) {
 	}
 }
 
+//Detecter le changement de l'etat d'activation
+$("#jukebox_mode").change(function() {
+	if($(this).prop("checked")) {
+		$("#jukebox_name").parent().parent().show();
+		if($("#jukebox_name").val())
+			socket.emit('declare_jukebox', playlist_slug, $("#jukebox_name").val());
+    }
+	else {
+		$("#jukebox_name").parent().parent().hide();
+		socket.emit('remove_jukebox', $("#jukebox_name").val());
+	}
+});
+$("#jukebox_name_ok").click(function() {
+	if($("#jukebox_name").val())
+		socket.emit('declare_jukebox', playlist_slug, $("#jukebox_name").val());
+});
 
 /***********************************************************************/
 /*                      Helper Functions   						       */

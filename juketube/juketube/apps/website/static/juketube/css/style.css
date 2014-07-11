@@ -54,6 +54,11 @@ textarea, input[type="text"], input[type="password"], input[type="datetime"], in
 	cursor: pointer;
 }
 
+.form-control {
+	height: 26px;
+	padding: 3px 6px;
+}
+
 /*
  * Masthead for nav
  */
@@ -153,6 +158,13 @@ span.glyphicon.glyphicon-search {
 	margin-left: 20px;
 }
 
+#playlist-slug {
+	color:white;
+	font-size: 30px;
+	padding: 0 0 0 5px;
+	line-height: 0;
+}
+
 footer {
   width: 100%;
   background-color: #428bca;
@@ -171,9 +183,19 @@ footer {
   color: #fff;
 }
 
+.controllers .container{
+	width: 100%;
+}
+
 .controllers .controls{
   color: white;
   font-size: 20px;
+  margin-top: 10px;
+}
+
+#remote-controller .controllers .controls{
+  color: white;
+  font-size: 30px;
   margin-top: 10px;
 }
 
@@ -187,6 +209,9 @@ footer {
 }
 .controllers .controls .glyphicon-play, .controllers .controls .glyphicon-pause {
   font-size: 35px;
+}
+#remote-controller .controllers .controls .glyphicon-play, .controllers .controls .glyphicon-pause {
+  font-size: 50px;
 }
 .controllers .controls .glyphicon {
   vertical-align: middle;
@@ -215,6 +240,15 @@ footer {
   /* border-radius: 3px; */
   background: #428bca;
 }
+
+.controllers .btn {
+	padding: 3px 6px;
+}
+
+#remote-controller .controllers .controls .glyphicon {
+	margin-right: 15px;
+}
+
 /* body */
 .main {
 	background-image: url(http://img.youtube.com/vi/jgh10of6DKA/1.jpg);
@@ -374,6 +408,9 @@ background-size: 5px;
   max-height: 300px;
   overflow: hidden;
   overflow-y: scroll;
+}
+.remote#table-playlist {
+	max-height: 800px;
 }
 
 #playlist {
