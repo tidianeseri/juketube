@@ -35,6 +35,9 @@ function playlistHTML(objVideo, index) {
 }
 
 $(document).ready(function() {
+	//Load variables when remote controller mode
+	loadForRemoteControl();
+	
 	//Nice scroll
 	$("#table-playlist").niceScroll({cursorcolor:"#428bca", cursorborder:"none", cursorwidth:"5px", autohidemode:"false", railoffset:{left:7}});
 	$("#search-results").niceScroll({cursorcolor:"#428bca", cursorborder:"none", cursorwidth:"5px", autohidemode:"false"});

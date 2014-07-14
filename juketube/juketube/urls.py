@@ -12,7 +12,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     
     url(r'', include('juketube.apps.website.urls')),
-    url(r'', include('registration.backends.default.urls')),
+    url(r'', include('registration.backends.simple.urls')),
     url('', include('social.apps.django_app.urls', namespace='social'))
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 #+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

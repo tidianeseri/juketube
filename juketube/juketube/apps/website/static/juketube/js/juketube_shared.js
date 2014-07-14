@@ -27,9 +27,19 @@
 	
 	socket.on('rcv_command', function(func, param) {
 		//Create the function
-		var fn = window[func];
+		var fn = window["YT_PLAYER"][func];
 		 
 		//Call the function
+		fn(param);
+	});
+	
+	socket.on('rcv_command2', function(func, param, param2) {
+		//Create the function
+		var fn = window["YT_PLAYER"][func];
+		 
+		//Call the function
+		if (func == "loadVideo")
+			YT_PLAYLIST.currentTrackIndex = param2
 		fn(param);
 	});
 	
@@ -39,7 +49,7 @@
 		    options.append($("<option />").val(key).text(key));
 		};
 	});
-
+	
 	$(document).ready(function() {
 
 		var entry_el = $('#ping');
@@ -53,5 +63,8 @@
 			if (playlist_slug) {
 				socket.emit('send_command', playlist_slug, $("#jukebox-select").val(), "loadVideo", "LTs7djCH5yE");
 			}
+			/*socket.emit('send_notification', 'avrsj4', function(data){
+				//console.log(data);
+			});*/
 		});
 	});

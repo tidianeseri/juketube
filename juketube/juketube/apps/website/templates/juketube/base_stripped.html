@@ -59,8 +59,9 @@
 					</ul>
 				</div>
 
-				{% else %}
+		  {% else %}
           <a class="blog-nav-item pull-right" href="{% url 'auth_login' %}">Login</a>
+          <a class="blog-nav-item pull-right" href="{% url 'registration_register' %}">Register</a>
           {% endif %}
         </nav>
       </div>

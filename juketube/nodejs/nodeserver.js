@@ -69,14 +69,29 @@ io.sockets.on('connection', function (socket) {
 	});
 	
 	socket.on("send_command", function(playlist, jukebox_name, command, param){
-		var to = basket[playlist][jukebox_name];
-		io.sockets.socket(to).emit('rcv_command', command, param);;
+		try{
+			var to = basket[playlist][jukebox_name];
+			io.sockets.socket(to).emit('rcv_command', command, param);
+		}
+		catch(e) {
+			socket.emit('error', "Erreur: "+e); //send to self
+		}
+	});
+	
+	socket.on("send_command2", function(playlist, jukebox_name, command, param, param2){
+		try{
+			var to = basket[playlist][jukebox_name];
+			io.sockets.socket(to).emit('rcv_command2', command, param, param2);;
+		}
+		catch(e){
+			socket.emit('error', "Erreur: "+e); //send to self
+		}
 	});
 	
 	//Client is sending message through socket.io
 	socket.on('send_notification', function (playlist) {
 		socket.broadcast.to(playlist).emit('refresh', "");
-		console.log("notification received");
+		//console.log("notification received");
 	});
 	
 	//Send commands

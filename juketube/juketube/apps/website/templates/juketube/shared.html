@@ -3,7 +3,7 @@
 {% block pagetitle %}JukeTube{% endblock %}
 {% block slug %} <h2> </h2>
 <span class="dropdown">
-	Slug: <a id="playlist-slug" class="blog-nav-item dropdown-toggle" href="#" data-toggle="dropdown"> {{playlist.slug}}<b class="caret"></b></a>
+	Slug: <a class="blog-nav-item dropdown-toggle" href="#" data-toggle="dropdown"><span id="playlist-slug" >{{playlist.slug}}</span><b class="caret"></b></a>
 	<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 		<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Name: {{playlist}}</a></li>
 		<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Slug: {{playlist.slug}}</a></li>
@@ -33,6 +33,7 @@
 	{% if is_listener %}<a class="btn btn-danger" href="{% url 'leave_playlist' playlist.id %}">Leave Playlist</a>{% endif %}
 	<a class="btn btn-success" href="{% url 'remote_shared_list' playlist.slug%}">Remote Control</a>
 	<a class="btn btn-info" href="#jukebox-activate"><span class="glyphicon glyphicon-music"></span> JukeBox</a>
+	<!-- <button class="btn" id="ping">Ping</button> -->
 </div>
 {% endblock %}
 
