@@ -1,13 +1,13 @@
 var http = require('http');
 //local
-var server = http.createServer().listen(4000);
+/*var server = http.createServer().listen(4000);
 var io = require('socket.io').listen(server);
-var cookie_reader = require('cookie');
+var cookie_reader = require('cookie');*/
 
 //webfaction
-/*var server = http.createServer().listen(32439, '127.0.0.1');
+var server = http.createServer().listen(32439, '127.0.0.1');
 var io = require('/home/tidianeseri/bin/node_modules/socket.io').listen(server);
-var cookie_reader = require('/home/tidianeseri/bin/node_modules/cookie');*/
+var cookie_reader = require('/home/tidianeseri/bin/node_modules/cookie');
 
 var querystring = require('querystring');
 
@@ -19,13 +19,14 @@ sub.subscribe('chat');*/
 
 //Configure socket.io to store cookie set by Django
 io.configure(function(){
-	io.set('authorization', function(data, accept){
+	/*io.set('authorization', function(data, accept){
 		if(data.headers.cookie){
 			data.cookie = cookie_reader.parse(data.headers.cookie);
 			return accept(null, true);
 		}
 		return accept('error', false);
-	});
+	});*/
+        io.set('transports', ['xhr-polling']);
 	io.set('log level', 1);
 });
 
