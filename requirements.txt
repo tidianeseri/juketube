@@ -3,10 +3,12 @@ PIL==1.1.7
 South==0.8.2
 Unidecode==0.04.14
 argparse==1.2.1
+beautifulsoup4==4.3.2
 django-mptt==0.6.0
 django-registration==1.0
 google-api-python-client==1.2
 httplib2==0.8
+lxml==3.4.0
 oauth2==1.5.211
 oauthlib==0.6.0
 python-openid==2.2.5
