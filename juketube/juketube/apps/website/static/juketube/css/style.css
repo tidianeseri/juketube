@@ -479,6 +479,20 @@ background-size: 5px;
   letter-spacing: 2px;
 }
 
+#song-info #info-text, #song-info #lyrics{
+	max-height: 400px;
+	overflow: scroll;
+}
+
+#song-info #infos-left{
+	max-height: 400px;
+	overflow-y: scroll;
+}
+
+#more-lyrics a{
+	cursor: pointer;
+}
+
 /*Hot playlists */
 
 #recommendations {
@@ -532,6 +546,7 @@ input[type=checkbox].form-control, input[type=radio].form-control {
 	margin-bottom: 10px;
 	margin-top: 10px;
 	overflow: hidden;
+	max-height: 143px;
 }
 .gallery-item .actions {
 	position: absolute;

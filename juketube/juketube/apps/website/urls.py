@@ -5,6 +5,8 @@ import views
 urlpatterns = patterns("",
     url(r"^$", views.index, name="index"),
     url(r'^search/$', views.search, name='search'),
+    url(r'^geniusLyrics/$', views.genius_lyrics, name='geniusLyrics'),
+    url(r'^geniusLyricsSong/$', views.genius_lyrics_song, name='geniusLyricsSong'),
     url(r'^updatePlaylist/$', views.updatePlaylist, name='updatePlaylist'),
     url(r'^getUpdatedPlaylist/$', views.getUpdatedPlaylist, name='getUpdatedPlaylist'),
     url(r'^create/$', views.shared_create, name='create_playlist'),

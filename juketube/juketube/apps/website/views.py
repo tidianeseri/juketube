@@ -10,6 +10,7 @@ from django.contrib.sessions.models import Session
 from django.core.exceptions import MultipleObjectsReturned
 from django.core import serializers
 import json, random, string, sys, traceback
+from juketube.libs.rapgenius.client import Genius
 
 def index(request):
     """
@@ -232,6 +233,24 @@ def leave_playlist(request, playlist_id):
     playlist = Playlist.objects.get(pk = playlist_id)
     Playlist.objects.leave_playlist(playlist, request.user)
     return HttpResponseRedirect('/playlists/'+playlist.slug)
+
+def genius_lyrics(request):
+    client = Genius()
+    
+    query = request.POST.get('query', '')
+    result = client.searchSong(query)
+    
+    result['next'] = client.results
+
+    return HttpResponse(json.dumps(result), content_type="application/json")
+
+def genius_lyrics_song(request):
+    client = Genius()
+    
+    query = request.POST.get('link', '')
+    result = client.searchSongLyrics(query)
+
+    return HttpResponse(json.dumps(result), content_type="application/json")
 
 def tests(request):
     t = loader.get_template('seven/remote.html')

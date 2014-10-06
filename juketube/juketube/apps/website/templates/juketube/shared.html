@@ -110,11 +110,13 @@
 <div id="song-info">
 	<div class="container">
 		<h1>Playlist Info</h1>
-		<div class="col-md-4">
+		<div class="col-md-4" id="infos-left">
 			<span id="connection-status">Connecting...</span>
 			<h4>Users</h4>
 			<div id="current-listeners"></div>
+			<h4>More Informations</h4>
 			<div id="info-text"></div>
+			<div id="more-lyrics"></div>
 			<hr>
 			<h3>JukeBox Mode</h3>
 			<div id="jukebox-activate" class="form-group">
@@ -134,12 +136,7 @@
 		</div>
 		<div class="col-md-8">
 			<h4>Lyrics</h4>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-				Aenean ut sapien et nibh auctor consequat quis id nulla. Curabitur
-				sollicitudin tristique nunc, ornare pharetra magna mattis ac.
-				Aliquam tortor nibh, pretium sit amet congue accumsan, suscipit vel
-				velit. Duis sed urna eget mi rutrum dapibus. Mauris ut augue sed
-				risus semper elementum ut sed justo.
+			<div id="lyrics"></div>
 		</div>
 	</div>
 </div>
@@ -152,6 +149,7 @@
 {% endblock %}
 
 {% block pagejs %}
+<script src="http://nodejuketube.tidianeseri.webfactional.com/socket.io/socket.io.js"></script>
 <script type="text/javascript">
 //player = new YoutubePlayer("ytapiplayer");
 	var tag = document.createElement('script');
@@ -186,17 +184,12 @@
 			tr1 = new MediaYoutube(data);
 			YT_PLAYLIST.add(tr1, false);
 		  {% endfor %}
-			/*YT_PLAYLIST.add(tr1);
-			YT_PLAYLIST.add(tr2);
-			YT_PLAYLIST.add(tr3);
-			YT_PLAYLIST.add(tr4);*/
 		}
 </script>
 
 
 {% if playlist.editable %}
 <!--<script src="http://localhost:4000/socket.io/socket.io.js"></script>-->
-<script src="http://nodejuketube.tidianeseri.webfactional.com/socket.io/socket.io.js"></script>
 <script type="text/javascript">
 var playlist_slug = "{{playlist.slug}}";
 var playlist_id = "{{playlist.id}}";

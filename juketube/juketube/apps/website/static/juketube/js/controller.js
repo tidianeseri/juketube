@@ -92,6 +92,7 @@ function onytplayerStateChange(evt) {
 	//Unstarted
 	if(evt.data == -1)
 	{
+		YT_PLAYER.changed = true;
 		YT_PLAYER.setInfo();
 		YT_PLAYER.setPlaybackInfo();
 		$('.main').css('background-image', "url(http://img.youtube.com/vi/"+YT_PLAYER.current+"/1.jpg)");
@@ -110,6 +111,7 @@ function onytplayerStateChange(evt) {
 	{
 		YT_PLAYER.setInfo();
 		YT_PLAYER.setPlaybackInfo();
+		YT_PLAYER.setLyrics();
 		YT_PLAYLIST.setCurrent(YT_PLAYLIST.currentTrackIndex);
 		YT_PLAYLIST.setNext();
 		//While playing, update the progress bar
@@ -117,6 +119,8 @@ function onytplayerStateChange(evt) {
 		
 		$('#control-play').removeClass("glyphicon-play");
 		$('#control-play').addClass("glyphicon-pause");
+		
+		YT_PLAYER.changed = false;
 	}
 	//Paused
 	else if(evt.data == 2){
@@ -130,6 +134,7 @@ function Player() {
 		this.player = ytplayer;
 	this.current = null;
 	this.currentPlaylistIndex = null;
+	this.changed = false;
 }
 
 Player.prototype.getPlayer = function() {
@@ -158,6 +163,17 @@ Player.prototype.updatePlayhead = function() {
 	}
 	$('#time-elapsed').width((this.player.getCurrentTime() / this.player.getDuration())*100 + "%");
 	$('#time-elapsing').html(" "+durationToTime(this.player.getCurrentTime()) + "/" + this.time);
+}
+
+Player.prototype.setLyrics = function() {
+	if (YT_PLAYER.changed) {
+		$('#info-text').html("Loading...");
+		$('#lyrics').html("Loading...");
+		$('#more-lyrics').html('<br/><h4>More lyrics results</h4>')
+		post_object = {};
+		post_object["query"]=(this.title).replace(/"/g, '&quot;');
+		geniusLyricsAndInfo(post_object);
+	}
 }
 
 Player.prototype.loadVideo = function(videoID) {
@@ -311,7 +327,7 @@ function setVideoCue() {
 		if ($("#is_auth").length) {
 			post_object = {};
 			post_object["idmedia"]=data.id;
-			post_object["title"]=(data.title).replace(/"/g, '&quot;');;
+			post_object["title"]=(data.title).replace(/"/g, '&quot;');
 			post_object["length"]=data.duration;
 			post_object["operation"]="add";
 			post_object["playlist_id"]=$("#playlist_id").val();
@@ -456,6 +472,57 @@ function toServer(postData, notify) {
 				notifyListeners(YT_PLAYLIST.slug);
 			
 			YT_PLAYLIST.setCurrent(YT_PLAYLIST.currentTrackIndex);
+		}
+	});
+return false;
+}
+
+//Get genius lyrics and info
+function geniusLyricsAndInfo(postData) {
+	var urlSubmit = "/geniusLyrics/";
+	$.ajax({
+		type: "POST",
+		url: urlSubmit,
+		beforeSend: function(xhr, settings) {
+	        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+	            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+	        }
+	    },
+		data      : postData,
+		success: function(response) {
+			//console.log(response);
+			$('#info-text').html(response['description']);
+			$('#lyrics').html(response['lyrics']);
+			$('#more-lyrics').html('<h4>More lyrics results</h4>')
+			$.each( response['next'], function(i,data) {
+				//console.log(data)
+				$('#more-lyrics').append('<a class="genius-song" data-link="'+data['link']+'">'+data['artist']+' - '+data['title']+'</a><br/>')
+			});
+			
+			$('.genius-song').on("click", function(){
+				postData['link']=$(this).attr("data-link");
+				geniusLyricsSong(postData);
+			});
+		}
+	});
+return false;
+}
+
+function geniusLyricsSong(postData) {
+	var urlSubmit = "/geniusLyricsSong/";
+	$.ajax({
+		type: "POST",
+		url: urlSubmit,
+		beforeSend: function(xhr, settings) {
+	        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+	            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+	        }
+	    },
+		data      : postData,
+		success: function(response) {
+			//console.log(response);
+			$('#info-text').html(response['description']);
+			$('#lyrics').html(response['lyrics']);
 		}
 	});
 return false;
