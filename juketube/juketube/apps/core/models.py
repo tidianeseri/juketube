@@ -40,6 +40,7 @@ class Media(models.Model):
     media_id = models.CharField(max_length=25, blank=False, null=False)
     name = models.CharField(max_length=100, blank=False, null=False)
     length = models.IntegerField(blank=True, null=True)
+    lyric = models.ForeignKey('Lyrics', null=True)
     
     def __unicode__(self):
         return self.name
@@ -99,3 +100,16 @@ class PlaylistMedia(models.Model):
     
     class Meta:
         ordering = ['position',]
+        
+class Lyrics(models.Model):
+    """ Lyrics model"""
+    content = models.TextField()
+    link = models.URLField()
+    description = models.TextField()
+    
+    def result_array(self, result):
+        result['link'] = self.link
+        result['description'] = self.description
+        result['lyrics'] = self.content        
+        
+        return result

@@ -3,11 +3,11 @@ from django.shortcuts import render, render_to_response
 from django.template import RequestContext, loader
 from django.contrib.auth.decorators import login_required
 from juketube.apps.core.functions import JukeTube
-from juketube.apps.core.models import Comments, User, Playlist, Media, Genre, PlaylistMedia
+from juketube.apps.core.models import Comments, User, Playlist, Media, Genre, PlaylistMedia, Lyrics
 from juketube.apps.core.forms import PlaylistForm
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.sessions.models import Session
-from django.core.exceptions import MultipleObjectsReturned
+from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from django.core import serializers
 import json, random, string, sys, traceback
 from juketube.libs.rapgenius.client import Genius
@@ -238,16 +238,37 @@ def genius_lyrics(request):
     client = Genius()
     
     query = request.POST.get('query', '')
-    result = client.searchSong(query)
-    
-    result['next'] = client.results
+    video_id = request.POST.get('video')
+    try:
+        media = Media.objects.get(media_id=video_id)
+        lyric = media.lyric
+        result = {}
+        
+        if lyric is None:
+            result = client.searchSong(query)
+            
+            if result['lyrics'] != "No results":
+                new_lyric, created = Lyrics.objects.get_or_create(link = result['link'], content=result['lyrics'], description=result['description'])
+                media.lyric = new_lyric
+                media.save()
+                result['next'] = client.results
+            
+        else:
+            #print "found"
+            result = lyric.result_array(result)
 
-    return HttpResponse(json.dumps(result), content_type="application/json")
+        return HttpResponse(json.dumps(result), content_type="application/json")
+    except ObjectDoesNotExist:
+        result = client.searchSong(query)
+        result['next'] = client.results
+        
+        return HttpResponse(json.dumps(result), content_type="application/json")
 
 def genius_lyrics_song(request):
     client = Genius()
     
     query = request.POST.get('link', '')
+    
     result = client.searchSongLyrics(query)
 
     return HttpResponse(json.dumps(result), content_type="application/json")

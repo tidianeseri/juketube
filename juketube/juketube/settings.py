@@ -39,7 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'juketube.apps.core',
     'juketube.apps.website',
-    #'south',
+    'south',
     'registration',
     'mptt',
     'social.apps.django_app.default',
@@ -144,4 +144,24 @@ FACEBOOK_EXTENDED_PERMISSIONS = ['email']
 #DjangoFullSerializer
 SERIALIZATION_MODULES = {
     'json': 'wadofstuff.django.serializers.json'
+}
+
+#LOGGING
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'debug.log'),
+        },
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
 }

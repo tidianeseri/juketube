@@ -31,16 +31,16 @@ class Genius(object):
         '''
         query = cleanQuery(query)
         #print query
-        payload = {'q': query[:40]}
+        payload = {'q': query[:50]}
         headers = {'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'}
         r = requests.get(self.SEARCH_URL, params=payload, headers=headers)
         self.resultIndex = 0
         
         if (r.status_code == 200):
-            result = songParser(r.text)
+            result = songParser(r.text, query)
             self.results = result
             
-            if len(result) > 0:
+            if len(result) > 0 and result[0]['score'] >= 0.5:
                 return self.searchSongLyrics(result[0]['link'])
             
             else:
@@ -59,14 +59,16 @@ class Genius(object):
         self.resultIndex = 0
         
         if (r.status_code == 200):
-            result = songParser(r.text)
+            result = songParser(r.text, query)
             self.results = result
             
-            if len(result) > 0:
+            if len(result) > 0 and result[0]['score'] >= 0.5:
                 return self.searchSongLyrics(result[0]['link'])
             
             else:
-                return "No results"
+                empty = {}
+                empty['lyrics'] = "No results"
+                return empty
         else:
             return "HTTP error: %s" % ( r.status_code)
             
@@ -80,6 +82,7 @@ class Genius(object):
         
         if (r.status_code == 200):
             result = lyricsParser(r.text)
+            result['link'] = link
             return result
         else:
             return "HTTP error: %s" % ( r.status_code)

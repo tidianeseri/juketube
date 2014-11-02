@@ -6,8 +6,9 @@ Created on Sep 30, 2014
 
 from bs4 import BeautifulSoup
 from utils import formatHTMLNewLines
+from juketube.libs.algos.strikeamatch import compare_strings
 
-def songParser(html):
+def songParser(html, query):
     '''
     Parse the songs results
     '''
@@ -21,11 +22,13 @@ def songParser(html):
         
         elem=song.find(class_="title_with_artists")
         title=elem.find(class_="song_title").text
-        artist=elem.find(class_="artist_name").text
+        artist=elem.find(class_="artist_name").text        
+        score=compare_strings(query, artist+" "+title)
         
-        songParsed = {'title':title,'artist':artist,'link':link}
+        songParsed = {'title':title,'artist':artist,'link':link,'score':score}
         songArray.append(songParsed)
     
+    songArray = sorted(songArray, key=lambda score: score['score'], reverse=True)
     return songArray
 
 def lyricsParser(html):

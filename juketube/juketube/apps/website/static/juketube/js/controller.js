@@ -172,6 +172,7 @@ Player.prototype.setLyrics = function() {
 		$('#more-lyrics').html('<br/><h4>More lyrics results</h4>')
 		post_object = {};
 		post_object["query"]=(this.title).replace(/"/g, '&quot;');
+		post_object["video"]=YT_PLAYER.current;
 		geniusLyricsAndInfo(post_object);
 	}
 }
