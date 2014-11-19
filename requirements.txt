@@ -7,6 +7,7 @@ beautifulsoup4==4.3.2
 django-mptt==0.6.0
 django-registration==1.0
 google-api-python-client==1.2
+html5lib==0.999
 httplib2==0.8
 lxml==3.4.0
 oauth2==1.5.211

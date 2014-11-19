@@ -238,7 +238,8 @@ def genius_lyrics(request):
     client = Genius()
     
     query = request.POST.get('query', '')
-    video_id = request.POST.get('video')
+    video_id = request.POST.get('video', '')
+    
     try:
         media = Media.objects.get(media_id=video_id)
         lyric = media.lyric

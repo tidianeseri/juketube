@@ -8,12 +8,14 @@ from bs4 import BeautifulSoup
 from utils import formatHTMLNewLines
 from juketube.libs.algos.strikeamatch import compare_strings
 
+libparser='html5lib'
+
 def songParser(html, query):
     '''
     Parse the songs results
     '''
     
-    results = BeautifulSoup(html)
+    results = BeautifulSoup(html, libparser)
     songs = results.find(id="main").find_all(class_="song_link", limit=5)
     songArray = []
     
@@ -35,7 +37,7 @@ def lyricsParser(html):
     '''
     Parse the lyrics
     '''
-    results = BeautifulSoup(html)
+    results = BeautifulSoup(html, libparser)
     lyrics = results.find(class_="lyrics").text
     description = results.find(class_="expanded_meta").find(class_="body_text").text
     

@@ -7,14 +7,11 @@ Created on Sep 30, 2014
 import requests
 from parsers import lyricsParser, songParser
 from utils import cleanQuery, modifyQuery
-import logging
 
 class Genius(object):
     '''
     classdocs
     '''
-        
-    logger = logging.getLogger(__name__)
 
 
     def __init__(self):
@@ -37,8 +34,6 @@ class Genius(object):
         payload = {'q': query[:50]}
         headers = {'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'}
         r = requests.get(self.SEARCH_URL, params=payload, headers=headers)
-        
-        self.logger.debug("Status code %d"%r.status_code)
         self.resultIndex = 0
         
         if (r.status_code == 200):
